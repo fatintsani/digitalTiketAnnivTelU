@@ -439,6 +439,8 @@ pair<string, string> pilihMetodePembayaran()
 
     cout << BLUE << "\n=== PILIH METODE PEMBAYARAN ===\n"
          << RESET;
+    cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
+         << RESET;
     cout << "1. Transfer Bank (Virtual Account)\n";
     cout << "2. E-Wallet\n";
     cout << "3. Internet/Mobile Banking\n";
@@ -525,7 +527,7 @@ pair<string, string> pilihMetodePembayaran()
         metode = "Internet/Mobile Banking";
         cout << "Pilih Aplikasi:\n";
         cout << "1. BCA Mobile\n";
-        cout << "2. Livin’ by Mandiri\n";
+        cout << "2. Livin by Mandiri\n";
         cout << "3. BRImo\n";
         cout << "4. BJBDigi\n";
         cout << "Pilihan Anda: ";
@@ -538,7 +540,7 @@ pair<string, string> pilihMetodePembayaran()
             return make_pair("Internet/Mobile Banking", "Aplikasi Tidak Valid");
         }
 
-        detail = (sub_pilihan == 1) ? "BCA Mobile" : (sub_pilihan == 2) ? "Livin’ by Mandiri"
+        detail = (sub_pilihan == 1) ? "BCA Mobile" : (sub_pilihan == 2) ? "Livin by Mandiri"
                                                  : (sub_pilihan == 3)   ? "BRImo"
                                                                         : "BJBDigi";
 
@@ -624,13 +626,13 @@ pair<string, string> pilihMetodePembayaran()
         break;
     }
 
-    cout << YELLOW << "\nApakah Anda yakin dengan pilihan ini? (Y/N): " << RESET;
+    cout << YELLOW << "\nApakah Anda yakin dengan pilihan metode pembayaran ini? (Y/N): " << RESET;
     char konfirmasi;
     cin >> konfirmasi;
 
     if (konfirmasi == 'N' || konfirmasi == 'n')
     {
-        cout << RED << "Transaksi dibatalkan oleh pengguna.\n"
+        cout << RED << "Transaksi berhasil dibatalkan.\n"
              << RESET;
         return make_pair("Batal", "Kembali ke Menu Utama");
     }
@@ -642,6 +644,10 @@ pair<string, string> pilihMetodePembayaran()
 double validasiKodeReferral(const string &kode)
 {
     if (kode == "PANITIA")
+    {
+        return 1.0; // Diskon 100%
+    }
+    if (kode == "TELUANIV")
     {
         return 1.0; // Diskon 100%
     }
@@ -664,6 +670,16 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
     int pilihan, jumlah, uang_dibayar, kembalian;
 
     pesanan.waktu_pembelian = getFormattedTimeWIB();
+
+    if (pesanan.kategori != "Invalid" && !pesanan.kategori.empty() && pesanan.kategori != "Waitlist")
+    {
+        laporanPesanan.push_back(pesanan); // Tambahkan hanya jika kategori valid dan bukan "Waitlist"
+    }
+
+    if (pesanan.kategori.empty())
+    {
+        pesanan.kategori = "Tidak Diketahui"; // Tambahkan kategori default
+    }
 
     cout << BLUE << "\n=== INFORMASI TIKET ===\n"
          << RESET;
@@ -761,7 +777,7 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
     {
         if (diskonReferral == 1.0)
         {
-            cout << GREEN << "Kode referral PANITIA digunakan. Tiket gratis!\n"
+            cout << GREEN << "Kode referral berhasil digunakan. Tiket gratis!\n"
                  << RESET;
         }
         else
@@ -807,7 +823,7 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
         nomorPenontonTerakhir += jumlah;
 
         pesanan.metode_pembayaran = "Referral Gratis"; // Menambahkan metode pembayaran Referral Gratis
-        pesanan.detail_pembayaran = "Pembayaran menggunakan kode referral PANITIA.";
+        pesanan.detail_pembayaran = "Pembayaran menggunakan kode referral KHUSUS.";
 
         cetakTiket(pesanan);
 
@@ -825,7 +841,7 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
 
     if (metode_pembayaran.first == "Batal")
     {
-        cout << BLUE << "Kembali ke menu utama...\n"
+        cout << BLUE << "Kembali ke menu utama!\n"
              << RESET;
         return Pesanan{"Batal", 0, 0, "Batal", "Transaksi dibatalkan", 0, "", {}, ""};
     }
@@ -872,12 +888,18 @@ void tampilkanLaporan(const vector<Pesanan> &laporan)
 
     for (const auto &pesanan : laporan)
     {
+        // Abaikan pesanan dengan kategori kosong atau kategori "Waitlist"
+        if (pesanan.kategori.empty() || pesanan.kategori == "Waitlist")
+        {
+            continue;
+        }
+
         cout << YELLOW << "Nama           : " << pesanan.nama << RESET << "\n"
              << MAGENTA << "Kategori       : " << pesanan.kategori << RESET << "\n"
              << BLUE << "Jumlah         : " << pesanan.jumlah << RESET << "\n"
              << GREEN << "Metode         : " << pesanan.metode_pembayaran << " (" << pesanan.detail_pembayaran << ")" << RESET << "\n"
              << RED << "Total Harga    : Rp " << pesanan.total_harga << RESET << "\n"
-             << BLUE << "Waktu Pembelian: " << pesanan.waktu_pembelian << RESET "\n"
+             << BLUE << "Waktu Pembelian: " << pesanan.waktu_pembelian << RESET << "\n"
              << "--------------------------------------\n";
     }
 }
@@ -886,21 +908,49 @@ void tampilkanLaporan(const vector<Pesanan> &laporan)
 void tampilkanStatusAntrean(const string &username)
 {
     bool ditemukan = false;
-    cout << "\n=== STATUS ANTREAN ANDA ===\n";
+    cout << BLUE << "\n=== STATUS ANTREAN ANDA ===\n"
+         << RESET;
+    cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
+         << RESET;
     for (const auto &antrean : daftarAntrean)
     {
         if (antrean.username == username)
         {
-            cout << "Kategori: " << antrean.kategori
-                 << ", Jumlah: " << antrean.jumlah
-                 << ", Status: " << antrean.status << "\n";
+            string status;
+            string warnaStatus;
+
+            if (antrean.status.empty())
+            {
+                status = "Menunggu Konfirmasi";
+                warnaStatus = YELLOW;
+            }
+            else if (antrean.status == "Disetujui")
+            {
+                status = "Disetujui";
+                warnaStatus = GREEN;
+            }
+            else if (antrean.status == "Ditolak")
+            {
+                status = "Ditolak";
+                warnaStatus = RED;
+            }
+            else
+            {
+                status = antrean.status;
+                warnaStatus = RESET;
+            }
+
+            cout << "Kategori: " << MAGENTA << antrean.kategori << RESET
+                 << ", Jumlah: " << BLUE << antrean.jumlah << RESET
+                 << ", Status: " << warnaStatus << status << RESET << "\n";
             ditemukan = true;
         }
     }
 
     if (!ditemukan)
     {
-        cout << "Anda belum memiliki antrean.\n";
+        cout << RED << "Anda belum memiliki antrean.\n"
+             << RESET;
     }
 }
 
@@ -908,6 +958,11 @@ void tampilkanStatusAntrean(const string &username)
 void cetakTiketJikaDiterima(const string &username)
 {
     bool ditemukan = false;
+
+    cout << BLUE << "\n=== CETAK TIKET ANTREAN ===\n"
+         << RESET;
+    cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
+         << RESET;
     for (const auto &antrean : daftarAntrean)
     {
         if (antrean.username == username && antrean.status == "Disetujui")
@@ -921,21 +976,54 @@ void cetakTiketJikaDiterima(const string &username)
 
     if (!ditemukan)
     {
-        cout << "\nTidak ada tiket yang disetujui untuk dicetak.\n";
+        cout << RED << "\nTidak ada tiket yang disetujui untuk dicetak.\n"
+             << RESET;
     }
 }
 
 // Fungsi untuk menampilkan daftar antrean
 void tampilkanAntrean()
 {
-    cout << "\n=== DAFTAR ANTREAN ===\n";
+    cout << BLUE << "\n=== DAFTAR ANTREAN ===\n"
+         << RESET;
+    cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
+         << RESET;
+
+    if (daftarAntrean.empty())
+    {
+        cout << RED << "Tidak ada antrean saat ini.\n"
+             << RESET;
+        return;
+    }
+
     for (size_t i = 0; i < daftarAntrean.size(); ++i)
     {
         const auto &antrean = daftarAntrean[i];
-        cout << i + 1 << ". Username: " << antrean.username
-             << ", Kategori: " << antrean.kategori
-             << ", Jumlah: " << antrean.jumlah
-             << ", Status: " << antrean.status << "\n";
+
+        string warnaStatus;
+        string status = antrean.status.empty() ? "Menunggu Konfirmasi" : antrean.status;
+
+        if (status == "Menunggu Konfirmasi")
+        {
+            warnaStatus = YELLOW;
+        }
+        else if (status == "Disetujui")
+        {
+            warnaStatus = GREEN;
+        }
+        else if (status == "Ditolak")
+        {
+            warnaStatus = RED;
+        }
+        else
+        {
+            warnaStatus = RESET;
+        }
+
+        cout << i + 1 << ". Username: " << BLUE << antrean.username << RESET
+             << ", Kategori: " << MAGENTA << antrean.kategori << RESET
+             << ", Jumlah: " << YELLOW << antrean.jumlah << RESET
+             << ", Status: " << warnaStatus << status << RESET << "\n";
     }
 }
 
@@ -943,30 +1031,41 @@ void tampilkanAntrean()
 void prosesAntrean()
 {
     int pilihan;
-    tampilkanAntrean();
+    tampilkanAntrean(); // Menampilkan daftar antrean
+
+    cout << BLUE << "\n=== ANTREAN CONFIRM ADMIN ===\n"
+         << RESET;
+    cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
+         << RESET;
 
     if (daftarAntrean.empty())
     {
-        cout << "Tidak ada antrean untuk diproses.\n";
+        cout << RED << "Tidak ada antrean untuk diproses.\n"
+             << RESET;
         return;
     }
 
-    cout << "Pilih antrean yang akan diproses (1-" << daftarAntrean.size() << "): ";
+    cout << BLUE << "Pilih antrean yang akan diproses (1-" << daftarAntrean.size() << "): " << RESET;
     cin >> pilihan;
 
     if (pilihan < 1 || pilihan > daftarAntrean.size())
     {
-        cout << "Pilihan tidak valid.\n";
+        cout << RED << "Pilihan tidak valid.\n"
+             << RESET;
         return;
     }
 
     Antrean &antreanDipilih = daftarAntrean[pilihan - 1];
 
-    cout << "Proses antrean untuk " << antreanDipilih.username << ":\n";
-    cout << "1. Terima\n";
-    cout << "2. Tolak\n";
-    cout << "3. Tetap Menunggu\n";
-    cout << "Pilihan: ";
+    cout << YELLOW << "Proses antrean untuk " << antreanDipilih.username << ":\n"
+         << RESET;
+    cout << GREEN << "1. Terima\n"
+         << RESET;
+    cout << RED << "2. Tolak\n"
+         << RESET;
+    cout << YELLOW << "3. Tetap Menunggu\n"
+         << RESET;
+    cout << BLUE << "Pilihan: " << RESET;
     int aksi;
     cin >> aksi;
 
@@ -974,17 +1073,21 @@ void prosesAntrean()
     {
     case 1:
         antreanDipilih.status = "Disetujui";
-        cout << "Antrean telah disetujui.\n";
+        cout << GREEN << "Antrean telah disetujui.\n"
+             << RESET;
         break;
     case 2:
         antreanDipilih.status = "Ditolak";
-        cout << "Antrean telah ditolak.\n";
+        cout << RED << "Antrean telah ditolak.\n"
+             << RESET;
         break;
     case 3:
-        cout << "Antrean tetap menunggu.\n";
+        cout << YELLOW << "Antrean tetap menunggu.\n"
+             << RESET;
         break;
     default:
-        cout << "Pilihan tidak valid.\n";
+        cout << RED << "Pilihan tidak valid.\n"
+             << RESET;
     }
 }
 
@@ -994,11 +1097,17 @@ void menuProsesAntreanAdmin()
     int pilihan;
     do
     {
-        cout << "\n=== MENU PROSES ANTREAN (ADMIN) ===\n";
-        cout << "1. Tampilkan Daftar Antrean\n";
-        cout << "2. Proses Antrean\n";
-        cout << "3. Kembali ke Menu Utama\n";
-        cout << "Pilih opsi: ";
+        cout << BLUE << "\n=== MENU PROSES ANTREAN ===\n"
+             << RESET;
+        cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
+             << RESET;
+        cout << YELLOW << "1. Tampilkan Daftar Antrean\n"
+             << RESET;
+        cout << YELLOW << "2. Proses Antrean\n"
+             << RESET;
+        cout << YELLOW << "3. Kembali ke Menu Utama\n"
+             << RESET;
+        cout << GREEN << "Pilih opsi: " << RESET;
         cin >> pilihan;
 
         switch (pilihan)
@@ -1010,10 +1119,12 @@ void menuProsesAntreanAdmin()
             prosesAntrean();
             break;
         case 3:
-            cout << "Kembali ke menu utama.\n";
+            cout << GREEN << "Kembali ke menu utama.\n"
+                 << RESET;
             break;
         default:
-            cout << "Pilihan tidak valid. Silakan coba lagi.\n";
+            cout << RED << "Pilihan tidak valid. Silakan coba lagi.\n"
+                 << RESET;
         }
     } while (pilihan != 3);
 }
@@ -1024,11 +1135,17 @@ void menuStatusAntreanUser(const string &username)
     int pilihan;
     do
     {
-        cout << "\n=== MENU STATUS ANTREAN (PENGGUNA) ===\n";
-        cout << "1. Tampilkan Status Antrean\n";
-        cout << "2. Cetak Tiket Jika Diterima\n";
-        cout << "3. Kembali ke Menu Utama\n";
-        cout << "Pilih opsi: ";
+        cout << BLUE << "\n=== MENU STATUS ANTREAN ===\n"
+             << RESET;
+        cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
+             << RESET;
+        cout << YELLOW << "1. Tampilkan Status Antrean\n"
+             << RESET;
+        cout << YELLOW << "2. Cetak Tiket Jika Diterima\n"
+             << RESET;
+        cout << YELLOW << "3. Kembali ke Menu Utama\n"
+             << RESET;
+        cout << GREEN << "Pilih opsi: " << RESET;
         cin >> pilihan;
 
         switch (pilihan)
@@ -1040,10 +1157,12 @@ void menuStatusAntreanUser(const string &username)
             cetakTiketJikaDiterima(username);
             break;
         case 3:
-            cout << "Kembali ke menu utama.\n";
+            cout << GREEN << "Kembali ke menu utama.\n"
+                 << RESET;
             break;
         default:
-            cout << "Pilihan tidak valid. Silakan coba lagi.\n";
+            cout << RED << "Pilihan tidak valid. Silakan coba lagi.\n"
+                 << RESET;
         }
     } while (pilihan != 3);
 }
