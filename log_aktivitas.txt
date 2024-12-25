@@ -1,0 +1,145 @@
+[Tue Dec 24 18:27:52 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Tue Dec 24 18:27:57 2024] User: fatinmuflihutstsani | Aktivitas: Melihat informasi konser
+[Tue Dec 24 18:28:23 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Tue Dec 24 18:28:27 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:28:34 2024] User: fatinmuflihutstsani | Aktivitas: Memasukkan pilihan tidak valid
+[Tue Dec 24 18:28:37 2024] User: fatinmuflihutstsani | Aktivitas: Memilih pindah akun
+[Tue Dec 24 18:29:09 2024] Guest: telkomuniversitynight24 | Aktivitas: Login berhasil setelah pindah akun
+[Tue Dec 24 18:29:14 2024] Admin: telkomuniversitynight24 | Aktivitas: Melihat stok tiket
+[Tue Dec 24 18:29:23 2024] Admin: telkomuniversitynight24 | Aktivitas: Memproses antrean tiket
+[Tue Dec 24 18:29:32 2024] Admin: telkomuniversitynight24 | Aktivitas: Memproses antrean tiket
+[Tue Dec 24 18:35:44 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Tue Dec 24 18:35:57 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Tue Dec 24 18:36:08 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:36:13 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:36:17 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:36:25 2024] User: fatinmuflihutstsani | Aktivitas: Melihat stok tiket
+[Tue Dec 24 18:36:48 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Gold
+[Tue Dec 24 18:36:55 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:37:00 2024] User: fatinmuflihutstsani | Aktivitas: Memilih pindah akun
+[Tue Dec 24 18:37:20 2024] Guest: telkomuniversitynight24 | Aktivitas: Login berhasil setelah pindah akun
+[Tue Dec 24 18:39:21 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Tue Dec 24 18:39:36 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Tue Dec 24 18:39:48 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:39:51 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:39:52 2024] User: fatinmuflihutstsani | Aktivitas: Melihat informasi konser
+[Tue Dec 24 18:39:58 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:40:00 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:40:03 2024] User: fatinmuflihutstsani | Aktivitas: Memasukkan pilihan tidak valid
+[Tue Dec 24 18:40:05 2024] User: fatinmuflihutstsani | Aktivitas: Memilih pindah akun
+[Tue Dec 24 18:40:31 2024] Guest: telkomuniversitynight24 | Aktivitas: Login berhasil setelah pindah akun
+[Tue Dec 24 18:43:19 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Tue Dec 24 18:43:37 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Tue Dec 24 18:43:42 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:43:48 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:43:52 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:43:54 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:43:57 2024] User: fatinmuflihutstsani | Aktivitas: Memilih pindah akun
+[Tue Dec 24 18:45:43 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Tue Dec 24 18:45:50 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Tue Dec 24 18:45:56 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:45:58 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:46:01 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 18:46:09 2024] User: fatinmuflihutstsani | Aktivitas: Memilih pindah akun
+[Tue Dec 24 18:46:24 2024] Guest: telkomuniversitynight24 | Aktivitas: Login berhasil setelah pindah akun
+[Tue Dec 24 20:14:28 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Tue Dec 24 20:15:35 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Tue Dec 24 20:15:44 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Tue Dec 24 20:15:52 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 20:16:01 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 20:16:03 2024] User: fatinmuflihutstsani | Aktivitas: Melihat informasi konser
+[Tue Dec 24 20:16:07 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 20:16:12 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 20:18:19 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Tue Dec 24 20:18:35 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Tue Dec 24 20:18:41 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 20:18:48 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 20:18:51 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 20:19:04 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Silver
+[Tue Dec 24 20:19:11 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 20:19:13 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 20:19:18 2024] User: fatinmuflihutstsani | Aktivitas: Memilih pindah akun
+[Tue Dec 24 20:19:41 2024] Guest: telkomuniversitynight24 | Aktivitas: Login berhasil setelah pindah akun
+[Tue Dec 24 20:21:01 2024] Admin: telkomuniversitynight24 | Aktivitas: Memverifikasi proses antrean
+[Tue Dec 24 20:21:36 2024] Admin: telkomuniversitynight24 | Aktivitas: Memverifikasi proses antrean
+[Tue Dec 24 20:21:40 2024] Admin: telkomuniversitynight24 | Aktivitas: Memilih pindah akun
+[Tue Dec 24 20:22:06 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil setelah pindah akun
+[Tue Dec 24 20:22:47 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 21:10:31 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Tue Dec 24 21:10:55 2024] User: fatinmuflihutstsani | Aktivitas: Melihat informasi konser
+[Tue Dec 24 21:11:04 2024] User: fatinmuflihutstsani | Aktivitas: Memasukkan pilihan tidak valid
+[Tue Dec 24 21:11:06 2024] User: fatinmuflihutstsani | Aktivitas: Menghitung countdown waktu acara
+[Tue Dec 24 21:15:36 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Tue Dec 24 21:15:37 2024] User: fatinmuflihutstsani | Aktivitas: Melihat informasi konser
+[Tue Dec 24 21:15:38 2024] User: fatinmuflihutstsani | Aktivitas: Menghitung countdown waktu acara
+[Tue Dec 24 21:15:58 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Tue Dec 24 21:16:41 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 21:16:45 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 21:16:49 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Waitlist
+[Tue Dec 24 21:16:54 2024] User: fatinmuflihutstsani | Aktivitas: Melihat laporan pemesanan
+[Tue Dec 24 21:30:58 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Tue Dec 24 21:31:17 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Tue Dec 24 21:31:35 2024] User: fatinmuflihutstsani | Aktivitas: Konfirmasi kehadiran
+[Tue Dec 24 21:36:35 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Tue Dec 24 22:37:29 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 00:09:27 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 00:10:37 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 00:11:14 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 00:11:39 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 00:12:15 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 00:12:57 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 00:13:07 2024] User: fatinmuflihutstsani | Aktivitas: Melihat laporan pemesanan
+[Wed Dec 25 00:13:51 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 00:46:50 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 00:47:26 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 00:53:33 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 00:55:14 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 00:55:56 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 00:56:51 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 00:57:41 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Gold
+[Wed Dec 25 00:58:10 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Bronze
+[Wed Dec 25 00:58:47 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Silver
+[Wed Dec 25 00:59:11 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 00:59:28 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 09:22:10 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 09:22:43 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 09:23:18 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Gold
+[Wed Dec 25 09:23:42 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Silver
+[Wed Dec 25 09:24:01 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Bronze
+[Wed Dec 25 09:24:51 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 09:25:14 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Gold
+[Wed Dec 25 09:25:27 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 09:25:48 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Silver
+[Wed Dec 25 09:26:10 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Bronze
+[Wed Dec 25 09:26:18 2024] User: fatinmuflihutstsani | Aktivitas: Melihat laporan pemesanan
+[Wed Dec 25 09:26:50 2024] User: fatinmuflihutstsani | Aktivitas: Memilih pindah akun
+[Wed Dec 25 09:27:11 2024] Guest: telkomuniversitynight24 | Aktivitas: Login berhasil setelah pindah akun
+[Wed Dec 25 09:27:15 2024] Admin: telkomuniversitynight24 | Aktivitas: Mengekspor laporan pemesanan ke CSV
+[Wed Dec 25 09:27:19 2024] Admin: telkomuniversitynight24 | Aktivitas: Melihat log aktivitas
+[Wed Dec 25 09:27:24 2024] Admin: telkomuniversitynight24 | Aktivitas: Memilih pindah akun
+[Wed Dec 25 09:27:37 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil setelah pindah akun
+[Wed Dec 25 11:52:20 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 11:54:57 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 11:55:29 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 11:59:23 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 12:03:45 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 12:04:11 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 12:07:48 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 12:17:18 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 12:17:30 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: Batal
+[Wed Dec 25 12:33:55 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 12:34:16 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 12:34:55 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 12:35:48 2024] User: fatinmuflihutstsani | Aktivitas: Melihat laporan pemesanan
+[Wed Dec 25 12:35:55 2024] User: fatinmuflihutstsani | Aktivitas: Memilih pindah akun
+[Wed Dec 25 12:36:09 2024] Guest: telkomuniversitynight24 | Aktivitas: Login berhasil setelah pindah akun
+[Wed Dec 25 12:36:14 2024] Admin: telkomuniversitynight24 | Aktivitas: Mengekspor laporan pemesanan ke CSV
+[Wed Dec 25 12:44:29 2024] User: fatinmuflihutstsani | Aktivitas: Login berhasil
+[Wed Dec 25 12:44:54 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 12:45:15 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 12:45:44 2024] User: fatinmuflihutstsani | Aktivitas: Membeli tiket untuk kategori: VIP
+[Wed Dec 25 12:45:47 2024] User: fatinmuflihutstsani | Aktivitas: Memilih pindah akun
+[Wed Dec 25 12:46:13 2024] Guest: telkomuniversitynight24 | Aktivitas: Login berhasil setelah pindah akun
+[Wed Dec 25 12:46:23 2024] Admin: telkomuniversitynight24 | Aktivitas: Melihat laporan pemesanan
+[Wed Dec 25 12:46:41 2024] Admin: telkomuniversitynight24 | Aktivitas: Mengekspor laporan pemesanan ke CSV
+[Wed Dec 25 12:47:32 2024] Admin: telkomuniversitynight24 | Aktivitas: Mengekspor laporan pemesanan ke CSV
