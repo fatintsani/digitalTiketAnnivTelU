@@ -266,8 +266,43 @@ bool loginSSO(string &username)
     return false;
 }
 
+// Fungsi untuk memberikan promosi
+void tampilkanPromosi(const std::vector<Tiket> &tiketList)
+{
+    time_t now = time(0);
+    tm *localTime = localtime(&now);
+    int hari = localTime->tm_wday;
+
+    if (hari == 5)
+    {
+        std::cout << GREEN << "\nPROMO JUMAT BERKAH! Diskon 15% untuk semua kategori tiket.\n"
+                  << RESET;
+
+        for (const auto &tiket : tiketList)
+        {
+            int hargaDiskon = tiket.harga * 0.85;
+            std::cout << MAGENTA << "Kategori: " << tiket.kategori << "\n"
+                      << RESET
+                      << BLUE << "Harga Asli: Rp " << tiket.harga << "\n"
+                      << RESET
+                      << GREEN << "Harga Diskon: Rp " << hargaDiskon << "\n"
+                      << RESET
+                      << BLUE << "Fasilitas: " << tiket.fasilitas << "\n"
+                      << RESET
+                      << GREEN << "Stok Tersedia: " << tiket.stok << "\n"
+                      << RESET
+                      << "--------------------------------------\n";
+        }
+    }
+    else
+    {
+        std::cout << BLUE << "\nSaat ini tidak ada promosi khusus.\n"
+                  << RESET;
+    }
+}
+
 // Fungsi untuk menampilkan informasi konser
-void informasiKonser()
+void informasiKonser(const vector<Tiket> &tiketList)
 {
     cout << BLUE << "\n=== INFORMASI KONSER ===\n"
          << RESET;
@@ -294,6 +329,9 @@ void informasiKonser()
     cout << "3. " << SILVER << "Silver  " << RESET << ": Rp. 500.000,00\n";
     cout << "4. " << BROWN << "Bronze  " << RESET << ": Rp. 250.000,00\n";
     cout << "--------------------------------------\n";
+
+    // Menampilkan promosi jika hari Jumat
+    tampilkanPromosi(tiketList);
 }
 
 // Fungsi untuk menampilkan coutdown konser
@@ -357,46 +395,6 @@ void hitungCountdown()
          << RESET;
     cout << GREEN << "Acara akan dimulai pada 17 Januari 2025, pukul 19:00 WIB dan selesai pukul 22:00 WIB.\n"
          << RESET;
-}
-
-// Fungsi untuk memberikan promosi
-void tampilkanPromosi(const vector<Tiket> &tiketList)
-{
-    time_t now = time(0);
-    tm *localTime = localtime(&now);
-    int hari = localTime->tm_wday; // 0 = Minggu, 1 = Senin, ..., 6 = Sabtu
-
-    cout << BLUE << "\n=== PROMOSI KHUSUS ===\n"
-         << RESET;
-    cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
-         << RESET;
-
-    if (hari == 5)
-    { // Promosi khusus untuk hari Jumat
-        cout << GREEN << "PROMO JUMAT BERKAH! Diskon 15% untuk semua kategori tiket.\n"
-             << RESET;
-
-        for (const auto &tiket : tiketList)
-        {
-            int hargaDiskon = tiket.harga * 0.85; // Diskon 15%
-            cout << MAGENTA << "Kategori: " << tiket.kategori << "\n"
-                 << RESET
-                 << BLUE << "Harga Asli: Rp " << tiket.harga << "\n"
-                 << RESET
-                 << GREEN << "Harga Diskon: Rp " << hargaDiskon << "\n"
-                 << RESET
-                 << BLUE << "Fasilitas: " << tiket.fasilitas << "\n"
-                 << RESET
-                 << GREEN << "Stok Tersedia: " << tiket.stok << "\n"
-                 << RESET
-                 << "--------------------------------------\n";
-        }
-    }
-    else
-    {
-        cout << BLUE << "Saat ini tidak ada promosi khusus.\n"
-             << RESET;
-    }
 }
 
 // Fungsi untuk menghasilkan kode masuk kombinasi #TELU dan angka acak
@@ -954,7 +952,7 @@ void tampilkanStatusAntrean(const string &username)
     }
 }
 
-// Fungsi untuk memungkinkan pengguna mencetak tiket jika antrean diterima
+// Fungsi untuk pengguna mencetak tiket jika antrean diterima admin
 void cetakTiketJikaDiterima(const string &username)
 {
     bool ditemukan = false;
@@ -963,13 +961,16 @@ void cetakTiketJikaDiterima(const string &username)
          << RESET;
     cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
          << RESET;
-    for (const auto &antrean : daftarAntrean)
+
+    vector<int> antreanDisetujui;
+
+    for (size_t i = 0; i < daftarAntrean.size(); ++i)
     {
-        if (antrean.username == username && antrean.status == "Disetujui")
+        if (daftarAntrean[i].username == username && daftarAntrean[i].status == "Disetujui")
         {
-            cout << "\nTiket Anda untuk kategori " << antrean.kategori
-                 << " sebanyak " << antrean.jumlah << " telah disetujui.\n";
-            cout << "Silakan lanjutkan ke pembayaran dan cetak tiket Anda.\n";
+            cout << i + 1 << ". Kategori: " << MAGENTA << daftarAntrean[i].kategori << RESET
+                 << ", Jumlah: " << YELLOW << daftarAntrean[i].jumlah << RESET << "\n";
+            antreanDisetujui.push_back(i);
             ditemukan = true;
         }
     }
@@ -978,7 +979,88 @@ void cetakTiketJikaDiterima(const string &username)
     {
         cout << RED << "\nTidak ada tiket yang disetujui untuk dicetak.\n"
              << RESET;
+        return;
     }
+
+    cout << GREEN << "\nPilih antrean yang ingin dicetak (1-" << antreanDisetujui.size() << "): " << RESET;
+    int pilihan;
+    cin >> pilihan;
+
+    if (pilihan < 1 || pilihan > antreanDisetujui.size())
+    {
+        cout << RED << "Pilihan tidak valid!\n"
+             << RESET;
+        return;
+    }
+
+    Antrean &antreanDipilih = daftarAntrean[antreanDisetujui[pilihan - 1]];
+
+    // Hitung total harga
+    int totalHarga = antreanDipilih.jumlah * hargaKategori[antreanDipilih.kategori];
+    cout << GREEN << "\nTotal Harga: Rp " << totalHarga << RESET << "\n";
+
+    // Pilih metode pembayaran
+    pair<string, string> metodePembayaran = pilihMetodePembayaran();
+    if (metodePembayaran.first == "Batal")
+    {
+        cout << RED << "Pembayaran dibatalkan.\n"
+             << RESET;
+        return;
+    }
+
+    cout << GREEN << "\nMetode pembayaran: " << metodePembayaran.first << RESET << "\n";
+    cout << BLUE << "Detail pembayaran: " << metodePembayaran.second << RESET << "\n";
+
+    // Masukkan jumlah uang yang dibayarkan
+    int uangDibayar;
+    do
+    {
+        cout << BLUE << "Masukkan jumlah uang yang dibayarkan: Rp " << RESET;
+        cin >> uangDibayar;
+
+        if (uangDibayar < totalHarga)
+        {
+            cout << RED << "Uang tidak cukup! Harap masukkan jumlah yang sesuai.\n"
+                 << RESET;
+        }
+    } while (uangDibayar < totalHarga);
+
+    int kembalian = uangDibayar - totalHarga;
+    if (kembalian > 0)
+    {
+        cout << GREEN << "Kembalian Anda: Rp " << kembalian << RESET << "\n";
+    }
+
+    // Buat objek Pesanan untuk menyimpan detail tiket yang akan dicetak
+    Pesanan pesanan;
+    pesanan.nama = username;
+    pesanan.kategori = antreanDipilih.kategori;
+    pesanan.jumlah = antreanDipilih.jumlah;
+    pesanan.waktu_pembelian = getFormattedTimeWIB();
+    pesanan.metode_pembayaran = metodePembayaran.first;
+    pesanan.detail_pembayaran = metodePembayaran.second;
+
+    // Atur nomor penonton secara berurutan
+    int nomorAwal = laporanPesanan.empty() ? 1 : laporanPesanan.back().no_penonton + laporanPesanan.back().jumlah;
+    pesanan.no_penonton = nomorAwal;
+
+    // Hasilkan kode masuk untuk setiap tiket
+    for (int i = 0; i < antreanDipilih.jumlah; ++i)
+    {
+        pesanan.kode_masuk.push_back(generateKodeMasuk());
+    }
+
+    // Simpan ke laporan pemesanan
+    laporanPesanan.push_back(pesanan);
+
+    // Cetak detail tiket setelah pembayaran selesai
+    cetakTiket(pesanan);
+
+    cout << GREEN << "\nTiket berhasil dicetak untuk kategori " << antreanDipilih.kategori << " sebanyak " << antreanDipilih.jumlah << " tiket.\n"
+         << RESET;
+
+    // Hapus antrean yang sudah dicetak
+    daftarAntrean.erase(daftarAntrean.begin() + antreanDisetujui[pilihan - 1]);
 }
 
 // Fungsi untuk menampilkan daftar antrean
@@ -1863,20 +1945,18 @@ void tampilkanMenuAdmin()
 {
     cout << GREEN << "\n=== SELAMAT DATANG ADMIN! ANDA MEMPUNYAI AKSES DATA ===\n"
          << RESET;
-    cout << "1.  Informasi Konser\n";
+    cout << "1.  Statistik Pemesanan\n";
     cout << "2.  Laporan Pemesanan\n";
     cout << "3.  Stok Tiket\n";
-    cout << "4.  Pencarian Tiket\n";
-    cout << "5.  Tambah Stok Tiket\n";
-    cout << "6.  Hapus Stok Tiket\n";
-    cout << "7.  Antrian Tiket\n";
-    cout << "8.  Lihat Ulasan\n";
-    cout << "9.  Statistik Pemesanan\n";
-    cout << "10. Ekspor Laporan ke CSV\n";
-    cout << "11. Log Aktivitas\n";
-    cout << "12. Reset Program\n";
-    cout << "13. Pindah Account\n";
-    cout << "14. Logout\n";
+    cout << "4.  Tambah Stok Tiket\n";
+    cout << "5.  Hapus Stok Tike\n";
+    cout << "6.  Antrian Tiket\n";
+    cout << "7.  Lihat Ulasan\n";
+    cout << "8.  Ekspor Laporan ke CSV\n";
+    cout << "9.  Log Aktivitas\n";
+    cout << "10. Reset Program\n";
+    cout << "11. Pindah Account\n";
+    cout << "12. Logout\n";
 }
 
 // Fungsi untuk menampilkan menu user
@@ -1953,11 +2033,17 @@ int main()
             switch (pilihan)
             {
             case 1:
-                informasiKonser();
-                logAktivitas(username, "Melihat informasi konser", isAdmin);
+                if (isAdmin)
+                {
+                    tampilkanStatistik(laporanPesanan, tiketList);
+                    logAktivitas(username, "Melihat statistik pemesanan", isAdmin);
+                }
+                else
+                {
+                    informasiKonser(tiketList);
+                    logAktivitas(username, "Melihat informasi konser", isAdmin);
+                }
                 break;
-
-                // tampilkanPromosi(tiketList);
             case 2:
                 if (isAdmin)
                 {
@@ -1967,7 +2053,7 @@ int main()
                 else
                 {
                     hitungCountdown();
-                    logAktivitas(username, "Menghitung countdown waktu acara", isAdmin);
+                    logAktivitas(username, "Melihat countdown waktu acara", isAdmin);
                 }
                 break;
             case 3:
@@ -1989,8 +2075,8 @@ int main()
             case 4:
                 if (isAdmin)
                 {
-                    cariTiket(laporanPesanan);
-                    logAktivitas(username, "Mencari tiket pada pemesanan", isAdmin);
+                    tambahStokTiket(tiketList);
+                    logAktivitas(username, "Menambah stok tiket", isAdmin);
                 }
                 else
                 {
@@ -2001,8 +2087,8 @@ int main()
             case 5:
                 if (isAdmin)
                 {
-                    tambahStokTiket(tiketList);
-                    logAktivitas(username, "Menambah stok tiket", isAdmin);
+                    hapusStokTiket(tiketList);
+                    logAktivitas(username, "Menghapus stok tiket", isAdmin);
                 }
                 else
                 {
@@ -2013,8 +2099,8 @@ int main()
             case 6:
                 if (isAdmin)
                 {
-                    hapusStokTiket(tiketList);
-                    logAktivitas(username, "Menghapus stok tiket", isAdmin);
+                    menuProsesAntreanAdmin();
+                    logAktivitas(username, "Memverifikasi proses antrean", isAdmin);
                 }
                 else
                 {
@@ -2037,20 +2123,20 @@ int main()
             case 7:
                 if (isAdmin)
                 {
-                    menuProsesAntreanAdmin();
-                    logAktivitas(username, "Memverifikasi proses antrean", isAdmin);
+                    tampilkanUlasan(listUlasan);
+                    logAktivitas(username, "Melihat ulasan pengguna", isAdmin);
                 }
                 else
                 {
                     cariTiket(laporanPesanan);
-                    logAktivitas(username, "Mencari tiket pada pemesanan", isAdmin);
+                    logAktivitas(username, "Mencari tiket pada yang telah dicetak", isAdmin);
                 }
                 break;
             case 8:
                 if (isAdmin)
                 {
-                    tampilkanUlasan(listUlasan);
-                    logAktivitas(username, "Melihat ulasan penonton", isAdmin);
+                    exportToCSV(laporanPesanan);
+                    logAktivitas(username, "Mengekspor laporan pemesanan ke CSV", isAdmin);
                 }
                 else
                 {
@@ -2061,8 +2147,8 @@ int main()
             case 9:
                 if (isAdmin)
                 {
-                    tampilkanStatistik(laporanPesanan, tiketList);
-                    logAktivitas(username, "Melihat statistik pemesanan", isAdmin);
+                    tampilkanLogAktivitas();
+                    logAktivitas(username, "Melihat log aktivitas", isAdmin);
                 }
                 else
                 {
@@ -2073,8 +2159,8 @@ int main()
             case 10:
                 if (isAdmin)
                 {
-                    exportToCSV(laporanPesanan);
-                    logAktivitas(username, "Mengekspor laporan pemesanan ke CSV", isAdmin);
+                    resetProgram(tiketList, laporanPesanan, listUlasan, daftarAntrean, nomorPenontonTerakhir);
+                    logAktivitas(username, "Mereset program ke kondisi awal", isAdmin);
                 }
                 else
                 {
@@ -2084,30 +2170,6 @@ int main()
                 }
                 break;
             case 11:
-                if (isAdmin)
-                {
-                    tampilkanLogAktivitas();
-                    logAktivitas(username, "Melihat log aktivitas", isAdmin);
-                }
-                else
-                {
-                    tambahUlasan(listUlasan, username);
-                    logAktivitas(username, "Menambahkan ulasan", isAdmin);
-                }
-                break;
-            case 12:
-                if (isAdmin)
-                {
-                    resetProgram(tiketList, laporanPesanan, listUlasan, daftarAntrean, nomorPenontonTerakhir);
-                    logAktivitas(username, "Mereset program ke kondisi awal", isAdmin);
-                }
-                else
-                {
-                    chatbot();
-                    logAktivitas(username, "Menggunakan chatbot", isAdmin);
-                }
-                break;
-            case 13:
                 if (isAdmin)
                 {
                     // Pindah Account
@@ -2134,12 +2196,39 @@ int main()
                     {
                         cout << RED << "Gagal login setelah pindah akun. Program akan keluar.\n"
                              << RESET;
-                        pilihan = isAdmin ? 14 : 15; // Set pilihan keluar
+                        pilihan = isAdmin ? 12 : 15; // Set pilihan keluar
                         break;
                     }
 
                     // Kembali ke menu utama tanpa keluar dari loop
                     continue;
+                }
+                else
+                {
+                    tambahUlasan(listUlasan, username);
+                    logAktivitas(username, "Menambahkan ulasan", isAdmin);
+                }
+                break;
+            case 12:
+                if (isAdmin)
+                {
+                    cout << BLUE << "Logout Admin berhasil, Terimakasih dan Sampai Jumpa!\n"
+                         << RESET;
+                    logAktivitas(username, "Logout Admin berhasil", isAdmin);
+                    pilihan = 12;
+                }
+                else
+                {
+                    chatbot();
+                    logAktivitas(username, "Menggunakan chatbot serina", isAdmin);
+                }
+                break;
+            case 13:
+                if (isAdmin)
+                {
+                    cout << YELLOW << "Pilihan tidak valid! Silakan coba lagi.\n"
+                         << RESET;
+                    logAktivitas(username, "Memasukkan pilihan tidak valid", isAdmin);
                 }
                 else
                 {
@@ -2150,10 +2239,9 @@ int main()
             case 14:
                 if (isAdmin)
                 {
-                    cout << BLUE << "Logout Admin berhasil, Terimakasih dan Sampai Jumpa!\n"
+                    cout << YELLOW << "Pilihan tidak valid! Silakan coba lagi.\n"
                          << RESET;
-                    logAktivitas(username, "Logout Admin berhasil", isAdmin);
-                    pilihan = 14;
+                    logAktivitas(username, "Memasukkan pilihan tidak valid", isAdmin);
                 }
                 else
                 {
@@ -2180,7 +2268,7 @@ int main()
                     {
                         cout << RED << "Gagal login setelah pindah akun. Program akan keluar.\n"
                              << RESET;
-                        pilihan = isAdmin ? 14 : 15; // Set pilihan keluar
+                        pilihan = isAdmin ? 12 : 15; // Set pilihan keluar
                         break;
                     }
 
@@ -2211,7 +2299,7 @@ int main()
             }
 
             // Kondisi keluar dari menu utama
-            if ((isAdmin && pilihan == 14) || (!isAdmin && pilihan == 15))
+            if ((isAdmin && pilihan == 12) || (!isAdmin && pilihan == 15))
             {
                 break;
             }
