@@ -416,10 +416,10 @@ void cetakTiket(Pesanan &pesanan)
     cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
          << RESET;
 
-    for (size_t i = 0; i < pesanan.kode_masuk.size(); i++) // Hanya gunakan data yang ada di kode_masuk
+    for (size_t i = 0; i < pesanan.kode_masuk.size(); i++)
     {
         cout << "Tiket " << (i + 1) << "\n";
-        cout << BLUE << "Nomor Penonton : " << pesanan.no_penonton + i << RESET << endl;
+        cout << BLUE << "Nomor Penonton : " << pesanan.no_penonton + i << RESET << endl; // Gunakan no_penonton
         cout << BLUE << "Nama           : " << pesanan.nama << RESET << endl;
         cout << YELLOW << "Kategori       : " << pesanan.kategori << RESET << endl;
         cout << GREEN << "Pembayaran     : Berhasil\n"
@@ -795,6 +795,7 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
              << RESET;
     }
 
+    harga_awal = jumlah * tiketDipilih.harga;
     pesanan.total_harga = harga_awal * (1 - diskon);
 
     if (diskon == 1.0) // Jika kode referral memberikan diskon 100%
@@ -817,8 +818,8 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
         tiketList[pilihan - 1].stok -= jumlah;
         tiketList[pilihan - 1].kuota_tiket -= jumlah;
 
-        pesanan.no_penonton = nomorPenontonTerakhir + 1;
-        nomorPenontonTerakhir += jumlah;
+        pesanan.no_penonton = nomorPenontonTerakhir + 1; // Gunakan nomor terakhir
+        nomorPenontonTerakhir += jumlah;                 // Tambahkan jumlah tiket yang dipesan
 
         pesanan.metode_pembayaran = "Referral Gratis"; // Menambahkan metode pembayaran Referral Gratis
         pesanan.detail_pembayaran = "Pembayaran menggunakan kode referral KHUSUS.";
@@ -886,7 +887,7 @@ void tampilkanLaporan(const vector<Pesanan> &laporan)
 
     for (const auto &pesanan : laporan)
     {
-        // Abaikan pesanan dengan kategori kosong atau kategori "Waitlist"
+        // Abaikan pesanan dengan kategori "Waitlist"
         if (pesanan.kategori.empty() || pesanan.kategori == "Waitlist")
         {
             continue;
@@ -896,7 +897,8 @@ void tampilkanLaporan(const vector<Pesanan> &laporan)
              << MAGENTA << "Kategori       : " << pesanan.kategori << RESET << "\n"
              << BLUE << "Jumlah         : " << pesanan.jumlah << RESET << "\n"
              << GREEN << "Metode         : " << pesanan.metode_pembayaran << " (" << pesanan.detail_pembayaran << ")" << RESET << "\n"
-             << RED << "Total Harga    : Rp " << pesanan.total_harga << RESET << "\n"
+             << RED << "Total Harga    : Rp " << pesanan.total_harga << RESET << "\n" // Hitung ulang total harga
+                                                                                      //  (pesanan.jumlah * hargaKategori[pesanan.kategori])
              << BLUE << "Waktu Pembelian: " << pesanan.waktu_pembelian << RESET << "\n"
              << "--------------------------------------\n";
     }
@@ -995,8 +997,10 @@ void cetakTiketJikaDiterima(const string &username)
 
     Antrean &antreanDipilih = daftarAntrean[antreanDisetujui[pilihan - 1]];
 
-    // Hitung total harga
-    int totalHarga = antreanDipilih.jumlah * hargaKategori[antreanDipilih.kategori];
+    // Hitung total harga sesuai kategori dan jumlah tiket
+    int hargaPerTiket = hargaKategori[antreanDipilih.kategori];
+    int totalHarga = antreanDipilih.jumlah * hargaPerTiket;
+
     cout << GREEN << "\nTotal Harga: Rp " << totalHarga << RESET << "\n";
 
     // Pilih metode pembayaran
@@ -1036,6 +1040,7 @@ void cetakTiketJikaDiterima(const string &username)
     pesanan.nama = username;
     pesanan.kategori = antreanDipilih.kategori;
     pesanan.jumlah = antreanDipilih.jumlah;
+    pesanan.total_harga = totalHarga; // Total harga diperbaiki
     pesanan.waktu_pembelian = getFormattedTimeWIB();
     pesanan.metode_pembayaran = metodePembayaran.first;
     pesanan.detail_pembayaran = metodePembayaran.second;
@@ -1056,7 +1061,8 @@ void cetakTiketJikaDiterima(const string &username)
     // Cetak detail tiket setelah pembayaran selesai
     cetakTiket(pesanan);
 
-    cout << GREEN << "\nTiket berhasil dicetak untuk kategori " << antreanDipilih.kategori << " sebanyak " << antreanDipilih.jumlah << " tiket.\n"
+    cout << GREEN << "\nTiket berhasil dicetak untuk kategori " << antreanDipilih.kategori
+         << " sebanyak " << antreanDipilih.jumlah << " tiket.\n"
          << RESET;
 
     // Hapus antrean yang sudah dicetak
@@ -1615,9 +1621,12 @@ void tampilkanStatistik(const vector<Pesanan> &laporan, const vector<Tiket> &tik
     // Hitung statistik berdasarkan laporan pesanan
     for (const auto &pesanan : laporan)
     {
-        totalTiketTerjual += pesanan.jumlah;
-        totalPendapatan += pesanan.total_harga;
-        kategoriTiketTerjual[pesanan.kategori] += pesanan.jumlah;
+        if (pesanan.kategori != "Waitlist")
+        { // Abaikan kategori "Waitlist"
+            totalTiketTerjual += pesanan.jumlah;
+            totalPendapatan += pesanan.total_harga;
+            kategoriTiketTerjual[pesanan.kategori] += pesanan.jumlah;
+        }
     }
 
     // Tampilkan statistik tiket
@@ -1790,12 +1799,12 @@ void exportToCSV(const vector<Pesanan> &laporan)
     // Isi data
     for (const auto &pesanan : laporan)
     {
-        file << pesanan.nama << ",";
-        file << pesanan.kategori << ",";
-        file << pesanan.jumlah << ",";
-        file << pesanan.metode_pembayaran << ",";
-        file << pesanan.detail_pembayaran << ",";
-        file << pesanan.total_harga << "\n";
+        if (pesanan.kategori != "Waitlist")
+        { // Abaikan kategori "Waitlist"
+            file << pesanan.nama << "," << pesanan.kategori << "," << pesanan.jumlah << ","
+                 << pesanan.metode_pembayaran << "," << pesanan.detail_pembayaran << ","
+                 << pesanan.total_harga << "\n";
+        }
     }
 
     file.close();
