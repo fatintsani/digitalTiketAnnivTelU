@@ -26,6 +26,8 @@ using namespace std::chrono;
 #define GOLD "\033[38;5;220m"
 #define SILVER "\033[38;5;250m"
 
+int nomorPenontonTerakhir = 0;
+
 // Struktur untuk menyimpan data tiket
 struct Tiket
 {
@@ -419,7 +421,7 @@ void cetakTiket(Pesanan &pesanan)
     for (size_t i = 0; i < pesanan.kode_masuk.size(); i++)
     {
         cout << "Tiket " << (i + 1) << "\n";
-        cout << BLUE << "Nomor Penonton : " << pesanan.no_penonton + i << RESET << endl; // Gunakan no_penonton
+        cout << BLUE << "Nomor Penonton : " << pesanan.no_penonton + i << RESET << endl;
         cout << BLUE << "Nama           : " << pesanan.nama << RESET << endl;
         cout << YELLOW << "Kategori       : " << pesanan.kategori << RESET << endl;
         cout << GREEN << "Pembayaran     : Berhasil\n"
@@ -898,7 +900,6 @@ void tampilkanLaporan(const vector<Pesanan> &laporan)
              << BLUE << "Jumlah         : " << pesanan.jumlah << RESET << "\n"
              << GREEN << "Metode         : " << pesanan.metode_pembayaran << " (" << pesanan.detail_pembayaran << ")" << RESET << "\n"
              << RED << "Total Harga    : Rp " << pesanan.total_harga << RESET << "\n" // Hitung ulang total harga
-                                                                                      //  (pesanan.jumlah * hargaKategori[pesanan.kategori])
              << BLUE << "Waktu Pembelian: " << pesanan.waktu_pembelian << RESET << "\n"
              << "--------------------------------------\n";
     }
@@ -966,6 +967,7 @@ void cetakTiketJikaDiterima(const string &username)
 
     vector<int> antreanDisetujui;
 
+    // Cari antrean yang disetujui
     for (size_t i = 0; i < daftarAntrean.size(); ++i)
     {
         if (daftarAntrean[i].username == username && daftarAntrean[i].status == "Disetujui")
@@ -1015,24 +1017,11 @@ void cetakTiketJikaDiterima(const string &username)
     cout << GREEN << "\nMetode pembayaran: " << metodePembayaran.first << RESET << "\n";
     cout << BLUE << "Detail pembayaran: " << metodePembayaran.second << RESET << "\n";
 
-    // Masukkan jumlah uang yang dibayarkan
-    int uangDibayar;
-    do
+    // Cari nomor penonton terakhir dari laporanPesanan
+    if (!laporanPesanan.empty())
     {
-        cout << BLUE << "Masukkan jumlah uang yang dibayarkan: Rp " << RESET;
-        cin >> uangDibayar;
-
-        if (uangDibayar < totalHarga)
-        {
-            cout << RED << "Uang tidak cukup! Harap masukkan jumlah yang sesuai.\n"
-                 << RESET;
-        }
-    } while (uangDibayar < totalHarga);
-
-    int kembalian = uangDibayar - totalHarga;
-    if (kembalian > 0)
-    {
-        cout << GREEN << "Kembalian Anda: Rp " << kembalian << RESET << "\n";
+        const Pesanan &tiketTerakhir = laporanPesanan.back();
+        nomorPenontonTerakhir = tiketTerakhir.no_penonton + tiketTerakhir.jumlah;
     }
 
     // Buat objek Pesanan untuk menyimpan detail tiket yang akan dicetak
@@ -1040,20 +1029,22 @@ void cetakTiketJikaDiterima(const string &username)
     pesanan.nama = username;
     pesanan.kategori = antreanDipilih.kategori;
     pesanan.jumlah = antreanDipilih.jumlah;
-    pesanan.total_harga = totalHarga; // Total harga diperbaiki
+    pesanan.total_harga = totalHarga;
     pesanan.waktu_pembelian = getFormattedTimeWIB();
     pesanan.metode_pembayaran = metodePembayaran.first;
     pesanan.detail_pembayaran = metodePembayaran.second;
 
-    // Atur nomor penonton secara berurutan
-    int nomorAwal = laporanPesanan.empty() ? 1 : laporanPesanan.back().no_penonton + laporanPesanan.back().jumlah;
-    pesanan.no_penonton = nomorAwal;
+    // Atur nomor penonton berdasarkan nomor terakhir yang dicetak
+    pesanan.no_penonton = nomorPenontonTerakhir + 1;
 
     // Hasilkan kode masuk untuk setiap tiket
     for (int i = 0; i < antreanDipilih.jumlah; ++i)
     {
         pesanan.kode_masuk.push_back(generateKodeMasuk());
     }
+
+    // Perbarui nomor terakhir yang dicetak
+    nomorPenontonTerakhir = pesanan.no_penonton + pesanan.jumlah - 1;
 
     // Simpan ke laporan pemesanan
     laporanPesanan.push_back(pesanan);
@@ -1479,6 +1470,7 @@ void tambahStokTiket(vector<Tiket> &tiketList)
          << RESET;
 }
 
+// Fungsi untuk admin menghapus tiket
 void hapusStokTiket(vector<Tiket> &tiketList)
 {
     int pilihan, hapusJumlah;
@@ -1561,6 +1553,7 @@ void hapusStokTiket(vector<Tiket> &tiketList)
          << RESET;
 }
 
+// Fungsi untuk menambah ulasan pengguna
 void tambahUlasan(vector<Ulasan> &listUlasan, const string &username)
 {
     Ulasan ulasan;
@@ -1590,6 +1583,7 @@ void tambahUlasan(vector<Ulasan> &listUlasan, const string &username)
          << RESET;
 }
 
+// Fungsi untuk melihat ulasan pengguna
 void tampilkanUlasan(const vector<Ulasan> &listUlasan)
 {
     cout << BLUE << "\n=== ULASAN PENGGUNA ===\n"
@@ -1613,6 +1607,7 @@ void tampilkanUlasan(const vector<Ulasan> &listUlasan)
     }
 }
 
+// Fungsi untuk menampilkan statistik pesanan
 void tampilkanStatistik(const vector<Pesanan> &laporan, const vector<Tiket> &tiketList)
 {
     int totalTiketTerjual = 0, totalPendapatan = 0;
@@ -1690,6 +1685,7 @@ void tampilkanStatistik(const vector<Pesanan> &laporan, const vector<Tiket> &tik
     cout << "--------------------------------------\n";
 }
 
+// Fungsi untuk menanyakan kepada chatbot (serina)
 void chatbot()
 {
     map<string, string> faq = {
@@ -1737,6 +1733,7 @@ void chatbot()
     } while (true);
 }
 
+// Fungsi untuk mencari tiket
 void cariTiket(const vector<Pesanan> &laporanPesanan)
 {
     string nama, kodeMasuk;
@@ -1812,6 +1809,7 @@ void exportToCSV(const vector<Pesanan> &laporan)
          << RESET;
 }
 
+// Fungsi untuk melihat aktivitas penggunas
 void logAktivitas(const string &username, const string &aktivitas, bool isAdmin)
 {
     ofstream logFile("log_aktivitas.txt", ios::app); // Membuka file log untuk ditambahkan
@@ -1853,6 +1851,7 @@ void tampilkanLogAktivitas()
     }
 }
 
+// Fungsi untuk menampilkan menu bantuan
 void tampilkanMenuBantuan()
 {
     cout << BLUE << "\n=== MENU BANTUAN ===\n"
@@ -1923,6 +1922,7 @@ void tampilkanMenuBantuan()
     cout << "--------------------------------------\n";
 }
 
+// Fungsi untuk mereset seluruh data ke awal lagi
 void resetProgram(vector<Tiket> &tiketList, vector<Pesanan> &laporanPesanan, vector<Ulasan> &listUlasan, vector<Antrean> &daftarAntrean, int &nomorPenontonTerakhir)
 {
     // Reset data tiket ke kondisi awal
@@ -1999,7 +1999,6 @@ int main()
         {"Bronze", 250000, "Berdiri, Harga Terjangkau", 500, 500}};
 
     int pilihan;
-    int nomorPenontonTerakhir = 0;
     string username;
     bool isAdmin = false;
 
