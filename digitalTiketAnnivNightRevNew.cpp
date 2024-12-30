@@ -268,6 +268,33 @@ bool loginSSO(string &username)
     return false;
 }
 
+bool konfirmasiLogout()
+{
+    char pilihan;
+    do
+    {
+        cout << YELLOW << "\nApakah Anda yakin ingin keluar dari aplikasi? (Y/N): " << RESET;
+        cin >> pilihan;
+        if (pilihan == 'Y' || pilihan == 'y')
+        {
+            cout << GREEN << "\nAnda telah berhasil logout. Sampai jumpa!\n"
+                 << RESET;
+            return true; // Melanjutkan logout
+        }
+        else if (pilihan == 'N' || pilihan == 'n')
+        {
+            cout << BLUE << "\nLogout dibatalkan. Kembali ke menu utama.\n"
+                 << RESET;
+            return false; // Membatalkan logout
+        }
+        else
+        {
+            cout << RED << "\nInput tidak valid. Silakan masukkan Y atau N.\n"
+                 << RESET;
+        }
+    } while (true); // Ulangi hingga input valid
+}
+
 // Fungsi untuk memberikan promosi
 void tampilkanPromosi(const std::vector<Tiket> &tiketList)
 {
@@ -435,7 +462,7 @@ void cetakTiket(Pesanan &pesanan)
 pair<string, string> pilihMetodePembayaran()
 {
     int pilihan_metode, sub_pilihan;
-    string metode, detail, nomor, cvv;
+    string metode, detail, nomor, cvv, nomorVA;
 
     cout << BLUE << "\n=== PILIH METODE PEMBAYARAN ===\n"
          << RESET;
@@ -476,12 +503,31 @@ pair<string, string> pilihMetodePembayaran()
             return make_pair("Transfer Bank", "Bank Tidak Valid");
         }
 
-        detail = (sub_pilihan == 1) ? "Bank Mandiri" : (sub_pilihan == 2) ? "Bank BCA"
-                                                   : (sub_pilihan == 3)   ? "Bank BRI"
-                                                                          : "Bank BJB";
+        if (sub_pilihan == 1)
+        {
+            detail = "Bank Mandiri";
+            nomorVA = "008" + to_string(rand() % 9000000000 + 1000000000);
+        }
+        else if (sub_pilihan == 2)
+        {
+            detail = "Bank BCA";
+            nomorVA = "014" + to_string(rand() % 9000000000 + 1000000000);
+        }
+        else if (sub_pilihan == 3)
+        {
+            detail = "Bank BRI";
+            nomorVA = "002" + to_string(rand() % 9000000000 + 1000000000);
+        }
+        else
+        {
+            detail = "Bank BJB";
+            nomorVA = "110" + to_string(rand() % 9000000000 + 1000000000);
+        }
 
-        detail += " - VA: " + to_string(rand() % 9000000000 + 1000000000);
-        cout << GREEN << "\nLangkah: Buka aplikasi mobile banking Anda, pilih menu transfer, dan masukkan nomor Virtual Account di atas.\n"
+        detail += " - Nomor Virtual Account: " + nomorVA;
+
+        cout << GREEN << "\nLangkah: Buka aplikasi mobile banking Anda, pilih menu transfer, dan masukkan nomor Virtual Account berikut: "
+             << nomorVA << "\n"
              << RESET;
         break;
 
@@ -1782,7 +1828,7 @@ void cariTiket(const vector<Pesanan> &laporanPesanan)
 // Fungsi untuk mengekspor laporan pemesanan ke file CSV
 void exportToCSV(const vector<Pesanan> &laporan)
 {
-    ofstream file("laporan_pemesanan.csv");
+    ofstream file("laporan_pemesanan.csv", ios::app);
     if (!file.is_open())
     {
         cout << RED << "Gagal membuka file untuk ekspor!\n"
@@ -1790,17 +1836,19 @@ void exportToCSV(const vector<Pesanan> &laporan)
         return;
     }
 
-    // Header CSV
-    file << "Nama,Kategori,Jumlah,Metode Pembayaran,Detail Pembayaran,Total Harga\n";
+    // Tambahkan header hanya jika file kosong
+    if (file.tellp() == 0)
+    {
+        file << "Nama,Kategori,Jumlah,Metode Pembayaran,Detail Pembayaran,Total Harga,Waktu Pembelian\n";
+    }
 
-    // Isi data
     for (const auto &pesanan : laporan)
     {
         if (pesanan.kategori != "Waitlist")
-        { // Abaikan kategori "Waitlist"
+        {
             file << pesanan.nama << "," << pesanan.kategori << "," << pesanan.jumlah << ","
                  << pesanan.metode_pembayaran << "," << pesanan.detail_pembayaran << ","
-                 << pesanan.total_harga << "\n";
+                 << pesanan.total_harga << "," << pesanan.waktu_pembelian << "\n";
         }
     }
 
@@ -1897,7 +1945,7 @@ void tampilkanMenuBantuan()
 
     cout << YELLOW << "10. Status Antrian:\n"
          << RESET;
-    cout << "   Menampilkan atrian ketika stok habis dan memberikan status konfirmasi antrian.\n";
+    cout << "   Menampilkan antrean ketika stok habis dan memberikan status konfirmasi antrean.\n";
 
     cout << YELLOW << "11. Tambah Ulasan:\n"
          << RESET;
@@ -1932,20 +1980,19 @@ void resetProgram(vector<Tiket> &tiketList, vector<Pesanan> &laporanPesanan, vec
         {"Silver", 500000, "Panggung Jauh, Pemandangan Bagus", 200, 200},
         {"Bronze", 250000, "Berdiri, Harga Terjangkau", 500, 500}};
 
-    // Kosongkan laporan pemesanan
+    // Reset laporan pemesanan
     laporanPesanan.clear();
 
-    // Kosongkan daftar ulasan
+    // Reset daftar ulasan
     listUlasan.clear();
 
-    // Kosongkan antrean
+    // Reset antrean
     daftarAntrean.clear();
 
     // Reset nomor penonton terakhir
     nomorPenontonTerakhir = 0;
 
-    // Konfirmasi ke admin
-    cout << GREEN << "Program berhasil di-reset ke kondisi awal.\n"
+    cout << GREEN << "Program berhasil direset ke kondisi awal!\n"
          << RESET;
 }
 
@@ -2001,6 +2048,7 @@ int main()
     int pilihan;
     string username;
     bool isAdmin = false;
+    bool keluar = false;
 
     if (loginSSO(username))
     {
@@ -2013,7 +2061,7 @@ int main()
         }
 
         // Menu utama berdasarkan peran
-        while (true)
+        while (!keluar)
         {
             cout << BLUE << "\n=== MENU UTAMA ===\n"
                  << RESET;
@@ -2220,10 +2268,13 @@ int main()
             case 12:
                 if (isAdmin)
                 {
-                    cout << BLUE << "Logout Admin berhasil, Terimakasih dan Sampai Jumpa!\n"
-                         << RESET;
-                    logAktivitas(username, "Logout Admin berhasil", isAdmin);
-                    pilihan = 12;
+                    // Panggil fungsi konfirmasiLogout
+                    if (konfirmasiLogout())
+                    {
+                        keluar = true; // Keluar dari loop utama
+                        logAktivitas(username, "Logout User berhasil", isAdmin);
+                    }
+                    break;
                 }
                 else
                 {
@@ -2293,26 +2344,30 @@ int main()
                 }
                 else
                 {
-                    cout << BLUE << "Logout User berhasil, Terimakasih dan Sampai Jumpa!\n"
-                         << RESET;
-                    logAktivitas(username, "Logout User berhasil", isAdmin);
-                    pilihan = 15;
+                    // Panggil fungsi konfirmasiLogout
+                    if (konfirmasiLogout())
+                    {
+                        keluar = true; // Keluar dari loop utama
+                        logAktivitas(username, "Logout User berhasil", isAdmin);
+                    }
                 }
-
+                break;
             default:
-                cout << YELLOW << "Pilihan tidak valid! Silakan coba lagi.\n"
+                cout << RED << "Pilihan tidak valid! Silakan coba lagi.\n"
                      << RESET;
                 logAktivitas(username, "Memasukkan pilihan tidak valid", isAdmin);
                 break;
-            }
 
-            // Kondisi keluar dari menu utama
-            if ((isAdmin && pilihan == 12) || (!isAdmin && pilihan == 15))
-            {
-                break;
+                // Kondisi keluar dari menu utama
+                if ((isAdmin && pilihan == 12) || (!isAdmin && pilihan == 15))
+                {
+                    break;
+                }
             }
         }
-    }
 
-    return 0;
+        cout << GREEN << "\nProgram selesai. Terima kasih!\n"
+             << RESET;
+        return 0;
+    }
 }

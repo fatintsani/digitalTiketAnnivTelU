@@ -1,23 +1,4 @@
-Nama,Kategori,Jumlah,Metode Pembayaran,Detail Pembayaran,Total Harga
-fatinmuflihutstsani,VIP,10,Transfer Bank,Bank Mandiri - VA: 1000030508,8999999
-fatinmuflihutstsani,VIP,10,Transfer Bank,Bank BCA - VA: 1000021343,8999999
-fatinmuflihutstsani,VIP,10,Transfer Bank,Bank BRI - VA: 1000026160,8999999
-fatinmuflihutstsani,VIP,0,Metode Pembayaran Tidak Valid,-,0
-fatinmuflihutstsani,VIP,10,Transfer Bank,Bank BJB - VA: 1000019920,8999999
-fatinmuflihutstsani,VIP,10,E-Wallet,GoPay - No. HP: 083133977234,8999999
-fatinmuflihutstsani,Gold,50,E-Wallet,OVO - No. HP: 083283493248,33749999
-fatinmuflihutstsani,Gold,50,E-Wallet,OVO - No. HP: 082132906574,33749999
-fatinmuflihutstsani,Silver,50,E-Wallet,Dana - No. HP: 084189746789,22499999
-fatinmuflihutstsani,Silver,50,E-Wallet,ShopeePay - No. HP: 083123999876,22499999
-fatinmuflihutstsani,Silver,50,Internet/Mobile Banking,BCA Mobile,22499999
-fatinmuflihutstsani,Silver,50,E-Wallet,LinkAja - No. HP: 083198458976,22499999
-fatinmuflihutstsani,Bronze,50,Internet/Mobile Banking,Livin by Mandiri,11249999
-fatinmuflihutstsani,Bronze,50,Internet/Mobile Banking,Livin by Mandiri,11249999
-fatinmuflihutstsani,Bronze,50,Internet/Mobile Banking,BRImo,11249999
-fatinmuflihutstsani,Bronze,50,Internet/Mobile Banking,BJBDigi,11249999
-fatinmuflihutstsani,Bronze,50,QRIS,QRIS Universal,11249999
-fatinmuflihutstsani,Bronze,50,Kartu Kredit/Debit,Visa - Kartu: 2389-9230-2379-2390 - CVV: 239,11249999
-fatinmuflihutstsani,Bronze,50,Kartu Kredit/Debit,Mastercard - Kartu: 3289-9032-3024-3292 - CVV: 923,11249999
-fatinmuflihutstsani,Bronze,50,Kartu Kredit/Debit,JCB - Kartu: 1329-4932-3890-9382 - CVV: 329,11249999
-fatinmuflihutstsani,Bronze,50,PayLater,GoPayLater,11249999
-fatinmuflihutstsani,Bronze,49,PayLater,Shopee PayLater,11249999
+Nama,Kategori,Jumlah,Metode Pembayaran,Detail Pembayaran,Total Harga,Waktu Pembelian
+fatinmuflihutstsani,VIP,10,Referral Gratis,Pembayaran menggunakan kode referral KHUSUS.,0,14:45:02 | 30 Desember 2024
+fatinmuflihutstsani,VIP,5,Transfer Bank,Bank BRI - Nomor Virtual Account: 0021000010657,4499999,14:45:11 | 30 Desember 2024
+fatinmuflihutstsani,Gold,10,Kartu Kredit/Debit,Mastercard - Kartu: 2318-8732-2375-8552 - CVV: 232,6749999,14:45:37 | 30 Desember 2024
