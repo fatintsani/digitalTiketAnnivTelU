@@ -28,7 +28,6 @@ using namespace std::chrono;
 
 int nomorPenontonTerakhir = 0;
 
-// Struktur untuk menyimpan data tiket
 struct Tiket
 {
     string kategori;
@@ -38,7 +37,6 @@ struct Tiket
     int kuota_tiket;
 };
 
-// Struktur untuk menyimpan data log pesanan
 struct Pesanan
 {
     string kategori;
@@ -52,7 +50,6 @@ struct Pesanan
     string waktu_pembelian;
 };
 
-// Struktur untuk menyimpan data ulasan
 struct Ulasan
 {
     string kategori;
@@ -61,7 +58,6 @@ struct Ulasan
     int penilaian;
 };
 
-// Struktur untuk menyimpan data antrean
 struct Antrean
 {
     string username;
@@ -70,33 +66,29 @@ struct Antrean
     string status;
 };
 
-// Daftar library vektor
 vector<Antrean> daftarAntrean;
 vector<Ulasan> listUlasan;
 vector<Pesanan> laporanPesanan;
 
-// Struktur data untuk menyimpan harga perkategori
 map<string, int> hargaKategori = {
     {"VIP", 1000000},
     {"Gold", 750000},
     {"Silver", 500000},
     {"Bronze", 250000}};
 
-// Struktur data untuk menyimpan role akun
 map<string, string> userRoles = {
     {"telkomuniversitynight24", "admin"},
     {"fatinmuflihutstsani", "user"},
     {"dindakhoirunnisabangun", "user"},
     {"muhammadvazrypalensky", "user"}};
 
-// Fungsi untuk menghasilkan OTP dengan kombinasi huruf dan angka
 string generateOTP()
 {
     srand(time(0));
     string otp;
     string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for (int i = 0; i < 6; i++) // 6 karakter OTP
+    for (int i = 0; i < 6; i++)
     {
         otp += characters[rand() % characters.length()];
     }
@@ -104,7 +96,6 @@ string generateOTP()
     return otp;
 }
 
-// Fungsi untuk mengonversi bulan ke format Indonesia
 string convertMonthToIndonesian(int month)
 {
     const string months[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni",
@@ -116,7 +107,6 @@ string convertMonthToIndonesian(int month)
     return "Invalid";
 }
 
-// Fungsi untuk mendapatkan waktu pembelian dalam format yang diminta
 string getFormattedTimeWIB()
 {
     auto now = system_clock::now();
@@ -125,7 +115,6 @@ string getFormattedTimeWIB()
 
     tm *localTime = localtime(&waktuWIB);
 
-    // Format waktu dan tanggal
     stringstream formattedTime;
     formattedTime << put_time(localTime, "%H:%M:%S") << " | "
                   << localTime->tm_mday << " "
@@ -135,7 +124,6 @@ string getFormattedTimeWIB()
     return formattedTime.str();
 }
 
-// Fungsi untuk memverifikasi OTP dengan batas 3 kali percobaan
 bool verifyOTP(const string &expectedOTP)
 {
     string inputOTP;
@@ -165,13 +153,11 @@ bool verifyOTP(const string &expectedOTP)
     return false;
 }
 
-// Fungsi login SSO, Admin dan Guest dengan verifikasi OTP
 bool loginSSO(string &username)
 {
     string password;
     string otp;
 
-    // Username dan password yang valid
     const string validUsername1 = "fatinmuflihutstsani";
     const string validPassword1 = "607022430003";
 
@@ -210,7 +196,7 @@ bool loginSSO(string &username)
             {
                 cout << GREEN << "Login sebagai guest berhasil!\n"
                      << RESET;
-                return true; // Guest login berhasil
+                return true;
             }
             else
             {
@@ -279,23 +265,22 @@ bool konfirmasiLogout()
         {
             cout << GREEN << "\nAnda telah berhasil logout. Sampai jumpa!\n"
                  << RESET;
-            return true; // Melanjutkan logout
+            return true;
         }
         else if (pilihan == 'N' || pilihan == 'n')
         {
             cout << BLUE << "\nLogout dibatalkan. Kembali ke menu utama.\n"
                  << RESET;
-            return false; // Membatalkan logout
+            return false;
         }
         else
         {
             cout << RED << "\nInput tidak valid. Silakan masukkan Y atau N.\n"
                  << RESET;
         }
-    } while (true); // Ulangi hingga input valid
+    } while (true);
 }
 
-// Fungsi untuk memberikan promosi
 void tampilkanPromosi(const std::vector<Tiket> &tiketList)
 {
     time_t now = time(0);
@@ -330,7 +315,6 @@ void tampilkanPromosi(const std::vector<Tiket> &tiketList)
     }
 }
 
-// Fungsi untuk menampilkan informasi konser
 void informasiKonser(const vector<Tiket> &tiketList)
 {
     cout << BLUE << "\n=== INFORMASI KONSER ===\n"
@@ -359,14 +343,11 @@ void informasiKonser(const vector<Tiket> &tiketList)
     cout << "4. " << BROWN << "Bronze  " << RESET << ": Rp. 250.000,00\n";
     cout << "--------------------------------------\n";
 
-    // Menampilkan promosi jika hari Jumat
     tampilkanPromosi(tiketList);
 }
 
-// Fungsi untuk menampilkan coutdown konser
 void hitungCountdown()
 {
-    // Waktu acara dimulai (19:00, 17 Januari 2025)
     tm waktu_mulai = {};
     waktu_mulai.tm_year = 2025 - 1900;
     waktu_mulai.tm_mon = 01;
@@ -375,16 +356,13 @@ void hitungCountdown()
     waktu_mulai.tm_min = 0;
     waktu_mulai.tm_sec = 0;
 
-    // Waktu acara selesai (22:00, 17 Januari 2025)
     tm waktu_selesai = waktu_mulai;
     waktu_selesai.tm_hour = 22;
 
-    // Konversi ke time_t untuk perhitungan
     time_t waktu_mulai_time = mktime(&waktu_mulai);
     time_t waktu_selesai_time = mktime(&waktu_selesai);
     time_t sekarang = time(0);
 
-    // Jika acara sudah selesai
     if (sekarang > waktu_selesai_time)
     {
         cout << GREEN << "Acara sudah selesai, Terimakasih sampai jumpa tahun depan!.\n"
@@ -392,7 +370,6 @@ void hitungCountdown()
         return;
     }
 
-    // Jika acara sedang berlangsung
     if (sekarang >= waktu_mulai_time && sekarang <= waktu_selesai_time)
     {
         cout << MAGENTA << "Acara sedang berlangsung. Waktu acara: 19:00 WIB - 22:00 WIB.\n"
@@ -400,7 +377,6 @@ void hitungCountdown()
         return;
     }
 
-    // Jika acara belum dimulai
     double selisih = difftime(waktu_mulai_time, sekarang);
     int detik = static_cast<int>(selisih);
 
@@ -426,18 +402,16 @@ void hitungCountdown()
          << RESET;
 }
 
-// Fungsi untuk menghasilkan kode masuk kombinasi #TELU dan angka acak
 string generateKodeMasuk()
 {
     string kodeMasuk = "#TELU";
-    for (int i = 0; i < 4; i++) // Tambahkan 4 angka acak
+    for (int i = 0; i < 4; i++)
     {
-        kodeMasuk += to_string(rand() % 10); // Angka acak 0-9
+        kodeMasuk += to_string(rand() % 10);
     }
     return kodeMasuk;
 }
 
-// Fungsi untuk mencetak tiket satu per satu
 void cetakTiket(Pesanan &pesanan)
 {
     cout << BLUE << "\n=== DETAIL TIKET ===\n"
@@ -458,7 +432,6 @@ void cetakTiket(Pesanan &pesanan)
     }
 }
 
-// Fungsi untuk memilih metode pembayaran
 pair<string, string> pilihMetodePembayaran()
 {
     int pilihan_metode, sub_pilihan;
@@ -468,9 +441,9 @@ pair<string, string> pilihMetodePembayaran()
          << RESET;
     cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
          << RESET;
-    cout << "1. Transfer Bank (Virtual Account)\n";
+    cout << "1. Internet/Mobile Banking (Virtual Account)\n";
     cout << "2. E-Wallet\n";
-    cout << "3. Internet/Mobile Banking\n";
+    cout << "3. Transfer Bank\n";
     cout << "4. QRIS\n";
     cout << "5. Kartu Kredit/Debit\n";
     cout << "6. PayLater\n";
@@ -487,12 +460,12 @@ pair<string, string> pilihMetodePembayaran()
     switch (pilihan_metode)
     {
     case 1:
-        metode = "Transfer Bank";
-        cout << "Pilih Bank:\n";
-        cout << "1. Bank Mandiri\n";
-        cout << "2. Bank BCA\n";
-        cout << "3. Bank BRI\n";
-        cout << "4. Bank BJB\n";
+        metode = "Internet/Mobile Banking";
+        cout << "Pilih Aplikasi:\n";
+        cout << "1. BCA Mobile\n";
+        cout << "2. Livin by Mandiri\n";
+        cout << "3. BRImo\n";
+        cout << "4. BJBDigi\n";
         cout << "Pilihan Anda: ";
         cin >> sub_pilihan;
 
@@ -500,34 +473,39 @@ pair<string, string> pilihMetodePembayaran()
         {
             cout << RED << "Bank tidak valid. Silakan coba lagi.\n"
                  << RESET;
-            return make_pair("Transfer Bank", "Bank Tidak Valid");
+            return make_pair("Internet/Mobile Banking", "Bank Tidak Valid");
         }
 
         if (sub_pilihan == 1)
         {
-            detail = "Bank Mandiri";
+            detail = "Livin by Mandiri";
             nomorVA = "008" + to_string(rand() % 9000000000 + 1000000000);
         }
         else if (sub_pilihan == 2)
         {
-            detail = "Bank BCA";
+            detail = "BCA Mobile";
             nomorVA = "014" + to_string(rand() % 9000000000 + 1000000000);
         }
         else if (sub_pilihan == 3)
         {
-            detail = "Bank BRI";
+            detail = "BRImo";
             nomorVA = "002" + to_string(rand() % 9000000000 + 1000000000);
         }
         else
         {
-            detail = "Bank BJB";
+            detail = "BJBDigi";
             nomorVA = "110" + to_string(rand() % 9000000000 + 1000000000);
         }
 
         detail += " - Nomor Virtual Account: " + nomorVA;
 
-        cout << GREEN << "\nLangkah: Buka aplikasi mobile banking Anda, pilih menu transfer, dan masukkan nomor Virtual Account berikut: "
-             << nomorVA << "\n"
+        detail = (sub_pilihan == 1) ? "BCA Mobile" : (sub_pilihan == 2) ? "Livin by Mandiri"
+                                                 : (sub_pilihan == 3)   ? "BRImo"
+                                                                        : "BJBDigi";
+
+        cout << GREEN << "\nLangkah: Buka aplikasi mobile banking " << detail << " Anda, pilih menu transfer, dan masukkan nomor Virtual Account berikut : "
+             << nomorVA
+             << "\n"
              << RESET;
         break;
 
@@ -570,12 +548,12 @@ pair<string, string> pilihMetodePembayaran()
         break;
 
     case 3:
-        metode = "Internet/Mobile Banking";
-        cout << "Pilih Aplikasi:\n";
-        cout << "1. BCA Mobile\n";
-        cout << "2. Livin by Mandiri\n";
-        cout << "3. BRImo\n";
-        cout << "4. BJBDigi\n";
+        metode = "Transfer Bank";
+        cout << "Pilih Bank:\n";
+        cout << "1. Bank Mandiri\n";
+        cout << "2. Bank BCA\n";
+        cout << "3. Bank BRI\n";
+        cout << "4. Bank BJB\n";
         cout << "Pilihan Anda: ";
         cin >> sub_pilihan;
 
@@ -583,14 +561,14 @@ pair<string, string> pilihMetodePembayaran()
         {
             cout << RED << "Aplikasi tidak valid. Silakan coba lagi.\n"
                  << RESET;
-            return make_pair("Internet/Mobile Banking", "Aplikasi Tidak Valid");
+            return make_pair("Transfer Bank", "Aplikasi Tidak Valid");
         }
 
-        detail = (sub_pilihan == 1) ? "BCA Mobile" : (sub_pilihan == 2) ? "Livin by Mandiri"
-                                                 : (sub_pilihan == 3)   ? "BRImo"
-                                                                        : "BJBDigi";
+        detail = (sub_pilihan == 1) ? "Bank Mandiri" : (sub_pilihan == 2) ? "Bank BCA"
+                                                   : (sub_pilihan == 3)   ? "Bank BRI"
+                                                                          : "Bank BJB";
 
-        cout << GREEN << "Langkah: Login ke aplikasi " << detail << ", pilih menu pembayaran, dan selesaikan transaksi sesuai instruksi di layar.\n"
+        cout << GREEN << "Langkah: Periksa saldo kartu " << detail << ", Anda dan konfirmasi pembayaran sesuai instruksi di layar. \n"
              << RESET;
         break;
 
@@ -644,7 +622,7 @@ pair<string, string> pilihMetodePembayaran()
         }
 
         detail += " - CVV: " + cvv;
-        cout << GREEN << "Langkah: Periksa saldo kartu Anda dan konfirmasi pembayaran sesuai instruksi di layar.\n"
+        cout << GREEN << "Langkah: Periksa saldo kartu Anda " << detail << " dan konfirmasi pembayaran sesuai instruksi di layar.\n"
              << RESET;
         break;
 
@@ -686,29 +664,27 @@ pair<string, string> pilihMetodePembayaran()
     return make_pair(metode, detail);
 }
 
-// Fungsi untuk sistem kode referral
 double validasiKodeReferral(const string &kode)
 {
     if (kode == "PANITIA")
     {
-        return 1.0; // Diskon 100%
+        return 1.0;
     }
     if (kode == "TELUANIV")
     {
-        return 1.0; // Diskon 100%
+        return 1.0;
     }
     if (kode == "DISKON10")
     {
-        return 0.1; // Diskon 10%
+        return 0.1;
     }
     if (kode == "DISKON20")
     {
-        return 0.2; // Diskon 20%
+        return 0.2;
     }
     return 0.0;
 }
 
-// Fungsi untuk memproses pemesanan tiket
 Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, const string &username)
 {
     Pesanan pesanan;
@@ -719,12 +695,12 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
 
     if (pesanan.kategori != "Invalid" && !pesanan.kategori.empty() && pesanan.kategori != "Waitlist")
     {
-        laporanPesanan.push_back(pesanan); // Tambahkan hanya jika kategori valid dan bukan "Waitlist"
+        laporanPesanan.push_back(pesanan);
     }
 
     if (pesanan.kategori.empty())
     {
-        pesanan.kategori = "Tidak Diketahui"; // Tambahkan kategori default
+        pesanan.kategori = "Tidak Diketahui";
     }
 
     cout << BLUE << "\n=== INFORMASI TIKET ===\n"
@@ -759,14 +735,13 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
 
     Tiket &tiketDipilih = tiketList[pilihan - 1];
 
-    if (tiketDipilih.stok == 0) // Jika stok habis
+    if (tiketDipilih.stok == 0)
     {
         cout << RED << "Tiket untuk kategori " << tiketDipilih.kategori << " habis.\n"
              << RESET;
         cout << YELLOW << "Masukkan jumlah tiket yang Anda inginkan: " << RESET;
         cin >> jumlah;
 
-        // Tambahkan ke daftar antrean
         daftarAntrean.push_back({username, tiketDipilih.kategori, jumlah});
         cout << GREEN << "Anda telah ditambahkan ke antrean untuk kategori " << tiketDipilih.kategori
              << " sebanyak " << jumlah << " tiket.\n"
@@ -790,7 +765,6 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
     pesanan.kategori = tiketList[pilihan - 1].kategori;
     pesanan.jumlah = jumlah;
 
-    // Hasilkan dan simpan kode tiket di dalam pesanan
     for (int i = 0; i < jumlah; i++)
     {
         string kode = generateKodeMasuk();
@@ -834,7 +808,7 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
         diskon += diskonReferral;
         if (diskon > 1.0)
         {
-            diskon = 1.0; // Pastikan diskon tidak lebih dari 100%
+            diskon = 1.0;
         }
     }
     else
@@ -846,7 +820,7 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
     harga_awal = jumlah * tiketDipilih.harga;
     pesanan.total_harga = harga_awal * (1 - diskon);
 
-    if (diskon == 1.0) // Jika kode referral memberikan diskon 100%
+    if (diskon == 1.0)
     {
         cout << GREEN << "Total harga setelah diskon: Gratis!\n"
              << RESET;
@@ -854,7 +828,6 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
 
         pesanan.kode_masuk.clear();
 
-        // Hasilkan kode tiket dengan format khusus: #TELUXXXX
         srand(time(0));
         for (int i = 0; i < jumlah; i++)
         {
@@ -866,10 +839,10 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
         tiketList[pilihan - 1].stok -= jumlah;
         tiketList[pilihan - 1].kuota_tiket -= jumlah;
 
-        pesanan.no_penonton = nomorPenontonTerakhir + 1; // Gunakan nomor terakhir
-        nomorPenontonTerakhir += jumlah;                 // Tambahkan jumlah tiket yang dipesan
+        pesanan.no_penonton = nomorPenontonTerakhir + 1;
+        nomorPenontonTerakhir += jumlah;
 
-        pesanan.metode_pembayaran = "Referral Gratis"; // Menambahkan metode pembayaran Referral Gratis
+        pesanan.metode_pembayaran = "Referral Gratis";
         pesanan.detail_pembayaran = "Pembayaran menggunakan kode referral KHUSUS.";
 
         cetakTiket(pesanan);
@@ -918,14 +891,13 @@ Pesanan prosesPesanan(vector<Tiket> &tiketList, int &nomorPenontonTerakhir, cons
     tiketList[pilihan - 1].stok -= jumlah;
     tiketList[pilihan - 1].kuota_tiket -= jumlah;
 
-    pesanan.no_penonton = nomorPenontonTerakhir + 1; // Mulai dari nomor penonton terakhir
-    nomorPenontonTerakhir += jumlah;                 // Perbarui nomor penonton terakhir
+    pesanan.no_penonton = nomorPenontonTerakhir + 1;
+    nomorPenontonTerakhir += jumlah;
 
     cetakTiket(pesanan);
     return pesanan;
 }
 
-// Fungsi untuk menampilkan laporan pemesanan
 void tampilkanLaporan(const vector<Pesanan> &laporan)
 {
     cout << BLUE << "\n=== LAPORAN PEMESANAN ===\n"
@@ -935,7 +907,7 @@ void tampilkanLaporan(const vector<Pesanan> &laporan)
 
     for (const auto &pesanan : laporan)
     {
-        // Abaikan pesanan dengan kategori "Waitlist"
+
         if (pesanan.kategori.empty() || pesanan.kategori == "Waitlist")
         {
             continue;
@@ -945,13 +917,12 @@ void tampilkanLaporan(const vector<Pesanan> &laporan)
              << MAGENTA << "Kategori       : " << pesanan.kategori << RESET << "\n"
              << BLUE << "Jumlah         : " << pesanan.jumlah << RESET << "\n"
              << GREEN << "Metode         : " << pesanan.metode_pembayaran << " (" << pesanan.detail_pembayaran << ")" << RESET << "\n"
-             << RED << "Total Harga    : Rp " << pesanan.total_harga << RESET << "\n" // Hitung ulang total harga
+             << RED << "Total Harga    : Rp " << pesanan.total_harga << RESET << "\n"
              << BLUE << "Waktu Pembelian: " << pesanan.waktu_pembelian << RESET << "\n"
              << "--------------------------------------\n";
     }
 }
 
-// Fungsi untuk menampilkan status antrean untuk pengguna
 void tampilkanStatusAntrean(const string &username)
 {
     bool ditemukan = false;
@@ -1001,7 +972,6 @@ void tampilkanStatusAntrean(const string &username)
     }
 }
 
-// Fungsi untuk pengguna mencetak tiket jika antrean diterima admin
 void cetakTiketJikaDiterima(const string &username)
 {
     bool ditemukan = false;
@@ -1013,7 +983,6 @@ void cetakTiketJikaDiterima(const string &username)
 
     vector<int> antreanDisetujui;
 
-    // Cari antrean yang disetujui
     for (size_t i = 0; i < daftarAntrean.size(); ++i)
     {
         if (daftarAntrean[i].username == username && daftarAntrean[i].status == "Disetujui")
@@ -1045,13 +1014,11 @@ void cetakTiketJikaDiterima(const string &username)
 
     Antrean &antreanDipilih = daftarAntrean[antreanDisetujui[pilihan - 1]];
 
-    // Hitung total harga sesuai kategori dan jumlah tiket
     int hargaPerTiket = hargaKategori[antreanDipilih.kategori];
     int totalHarga = antreanDipilih.jumlah * hargaPerTiket;
 
     cout << GREEN << "\nTotal Harga: Rp " << totalHarga << RESET << "\n";
 
-    // Pilih metode pembayaran
     pair<string, string> metodePembayaran = pilihMetodePembayaran();
     if (metodePembayaran.first == "Batal")
     {
@@ -1063,14 +1030,12 @@ void cetakTiketJikaDiterima(const string &username)
     cout << GREEN << "\nMetode pembayaran: " << metodePembayaran.first << RESET << "\n";
     cout << BLUE << "Detail pembayaran: " << metodePembayaran.second << RESET << "\n";
 
-    // Cari nomor penonton terakhir dari laporanPesanan
     if (!laporanPesanan.empty())
     {
         const Pesanan &tiketTerakhir = laporanPesanan.back();
         nomorPenontonTerakhir = tiketTerakhir.no_penonton + tiketTerakhir.jumlah;
     }
 
-    // Buat objek Pesanan untuk menyimpan detail tiket yang akan dicetak
     Pesanan pesanan;
     pesanan.nama = username;
     pesanan.kategori = antreanDipilih.kategori;
@@ -1080,33 +1045,26 @@ void cetakTiketJikaDiterima(const string &username)
     pesanan.metode_pembayaran = metodePembayaran.first;
     pesanan.detail_pembayaran = metodePembayaran.second;
 
-    // Atur nomor penonton berdasarkan nomor terakhir yang dicetak
     pesanan.no_penonton = nomorPenontonTerakhir + 1;
 
-    // Hasilkan kode masuk untuk setiap tiket
     for (int i = 0; i < antreanDipilih.jumlah; ++i)
     {
         pesanan.kode_masuk.push_back(generateKodeMasuk());
     }
 
-    // Perbarui nomor terakhir yang dicetak
     nomorPenontonTerakhir = pesanan.no_penonton + pesanan.jumlah - 1;
 
-    // Simpan ke laporan pemesanan
     laporanPesanan.push_back(pesanan);
 
-    // Cetak detail tiket setelah pembayaran selesai
     cetakTiket(pesanan);
 
     cout << GREEN << "\nTiket berhasil dicetak untuk kategori " << antreanDipilih.kategori
          << " sebanyak " << antreanDipilih.jumlah << " tiket.\n"
          << RESET;
 
-    // Hapus antrean yang sudah dicetak
     daftarAntrean.erase(daftarAntrean.begin() + antreanDisetujui[pilihan - 1]);
 }
 
-// Fungsi untuk menampilkan daftar antrean
 void tampilkanAntrean()
 {
     cout << BLUE << "\n=== DAFTAR ANTREAN ===\n"
@@ -1152,11 +1110,10 @@ void tampilkanAntrean()
     }
 }
 
-// Fungsi untuk memproses antrean oleh admin
 void prosesAntrean()
 {
     int pilihan;
-    tampilkanAntrean(); // Menampilkan daftar antrean
+    tampilkanAntrean();
 
     cout << BLUE << "\n=== ANTREAN CONFIRM ADMIN ===\n"
          << RESET;
@@ -1216,7 +1173,6 @@ void prosesAntrean()
     }
 }
 
-// Fungsi untuk menampilkan menu proses antrean
 void menuProsesAntreanAdmin()
 {
     int pilihan;
@@ -1254,7 +1210,6 @@ void menuProsesAntreanAdmin()
     } while (pilihan != 3);
 }
 
-// Fungsi untuk menampilkan menu status antrean
 void menuStatusAntreanUser(const string &username)
 {
     int pilihan;
@@ -1292,7 +1247,6 @@ void menuStatusAntreanUser(const string &username)
     } while (pilihan != 3);
 }
 
-// Fungsi untuk membatalkan tiket
 void batalkanTiket(vector<Pesanan> &laporan, vector<Tiket> &tiketList)
 {
     string nama, kategori;
@@ -1351,7 +1305,6 @@ void batalkanTiket(vector<Pesanan> &laporan, vector<Tiket> &tiketList)
     }
 }
 
-// Fungsi untuk memeriksa tiket masuk
 void tiketMasuk(const vector<Pesanan> &laporan)
 {
     int nomor_penonton;
@@ -1363,7 +1316,6 @@ void tiketMasuk(const vector<Pesanan> &laporan)
     cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
          << RESET;
 
-    // Input data tiket dari pengguna
     cout << "Masukkan nomor penonton: ";
     cin >> nomor_penonton;
     cin.ignore();
@@ -1374,13 +1326,12 @@ void tiketMasuk(const vector<Pesanan> &laporan)
     cout << "Masukkan kode masuk tiket: ";
     getline(cin, kode_masuk);
 
-    // Cari tiket berdasarkan laporan
     for (const auto &pesanan : laporan)
     {
-        // Cocokkan nama dan kategori terlebih dahulu
+
         if (pesanan.nama == nama && pesanan.kategori == kategori)
         {
-            // Cocokkan nomor penonton dan validasi kode masuk
+
             for (size_t i = 0; i < pesanan.kode_masuk.size(); ++i)
             {
                 int nomor_terhitung = pesanan.no_penonton + i;
@@ -1391,11 +1342,10 @@ void tiketMasuk(const vector<Pesanan> &laporan)
                 }
             }
             if (tiket_valid)
-                break; // Keluar jika tiket ditemukan valid
+                break;
         }
     }
 
-    // Hasil validasi
     if (tiket_valid)
     {
         cout << GREEN << "\nTiket valid! Selamat menikmati konser.\n"
@@ -1408,7 +1358,6 @@ void tiketMasuk(const vector<Pesanan> &laporan)
     }
 }
 
-// Fungsi untuk menampilkan stok tiket
 void tampilkanStokTiket(const vector<Tiket> &tiketList)
 {
     cout << BLUE << "\n=== STOK TIKET ===\n"
@@ -1442,7 +1391,6 @@ void tampilkanStokTiket(const vector<Tiket> &tiketList)
     }
 }
 
-// Fungsi untuk admin menambah stok tiket
 void tambahStokTiket(vector<Tiket> &tiketList)
 {
     int pilihan, tambah;
@@ -1451,11 +1399,11 @@ void tambahStokTiket(vector<Tiket> &tiketList)
     cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
          << RESET;
     cout << "\nPilih kategori tiket yang ingin ditambah stoknya:\n";
+
     for (int i = 0; i < tiketList.size(); i++)
     {
         string warnaKategori = RESET;
 
-        // Menentukan warna berdasarkan kategori
         if (tiketList[i].kategori == "VIP")
         {
             warnaKategori = MAGENTA;
@@ -1510,13 +1458,17 @@ void tambahStokTiket(vector<Tiket> &tiketList)
         warnaKategoriDipilih = BROWN;
     }
 
-    // Menampilkan pesan sukses dengan warna kategori
+    cout << BLUE << "Masukkan jumlah stok yang ingin ditambah: " << RESET;
+    cin >> tambah;
+
+    tiketList[pilihan - 1].stok += tambah;
+    tiketList[pilihan - 1].kuota_tiket += tambah;
+
     cout << GREEN << "Stok tiket untuk kategori " << warnaKategoriDipilih << tiketList[pilihan - 1].kategori << RESET
          << GREEN << " berhasil ditambah!\n"
          << RESET;
 }
 
-// Fungsi untuk admin menghapus tiket
 void hapusStokTiket(vector<Tiket> &tiketList)
 {
     int pilihan, hapusJumlah;
@@ -1525,7 +1477,6 @@ void hapusStokTiket(vector<Tiket> &tiketList)
     cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
          << RESET;
 
-    // Menampilkan daftar kategori tiket
     for (int i = 0; i < tiketList.size(); i++)
     {
         string warnaKategori = RESET;
@@ -1561,7 +1512,6 @@ void hapusStokTiket(vector<Tiket> &tiketList)
         return;
     }
 
-    // Menanyakan berapa jumlah tiket yang ingin dihapus
     cout << BLUE << "Masukkan jumlah tiket yang ingin dihapus: " << RESET;
     cin >> hapusJumlah;
 
@@ -1572,7 +1522,6 @@ void hapusStokTiket(vector<Tiket> &tiketList)
         return;
     }
 
-    // Mengurangi stok tiket
     tiketList[pilihan - 1].stok -= hapusJumlah;
 
     string warnaKategoriDipilih = RESET;
@@ -1593,13 +1542,11 @@ void hapusStokTiket(vector<Tiket> &tiketList)
         warnaKategoriDipilih = BROWN;
     }
 
-    // Menampilkan pesan sukses
     cout << GREEN << "Stok tiket untuk kategori " << warnaKategoriDipilih << tiketList[pilihan - 1].kategori << RESET
          << GREEN << " berhasil dihapus!\n"
          << RESET;
 }
 
-// Fungsi untuk menambah ulasan pengguna
 void tambahUlasan(vector<Ulasan> &listUlasan, const string &username)
 {
     Ulasan ulasan;
@@ -1615,7 +1562,6 @@ void tambahUlasan(vector<Ulasan> &listUlasan, const string &username)
     cout << "Penilaian (1-5): ";
     cin >> ulasan.penilaian;
 
-    // Validasi penilaian
     if (ulasan.penilaian < 1 || ulasan.penilaian > 5)
     {
         cout << RED << "Penilaian tidak valid! Harus dalam rentang 1-5.\n"
@@ -1629,7 +1575,6 @@ void tambahUlasan(vector<Ulasan> &listUlasan, const string &username)
          << RESET;
 }
 
-// Fungsi untuk melihat ulasan pengguna
 void tampilkanUlasan(const vector<Ulasan> &listUlasan)
 {
     cout << BLUE << "\n=== ULASAN PENGGUNA ===\n"
@@ -1653,24 +1598,21 @@ void tampilkanUlasan(const vector<Ulasan> &listUlasan)
     }
 }
 
-// Fungsi untuk menampilkan statistik pesanan
 void tampilkanStatistik(const vector<Pesanan> &laporan, const vector<Tiket> &tiketList)
 {
     int totalTiketTerjual = 0, totalPendapatan = 0;
-    map<string, int> kategoriTiketTerjual; // Untuk menyimpan jumlah tiket terjual per kategori
+    map<string, int> kategoriTiketTerjual;
 
-    // Hitung statistik berdasarkan laporan pesanan
     for (const auto &pesanan : laporan)
     {
         if (pesanan.kategori != "Waitlist")
-        { // Abaikan kategori "Waitlist"
+        {
             totalTiketTerjual += pesanan.jumlah;
             totalPendapatan += pesanan.total_harga;
             kategoriTiketTerjual[pesanan.kategori] += pesanan.jumlah;
         }
     }
 
-    // Tampilkan statistik tiket
     cout << BLUE << "\n=== STATISTIK TIKET ===\n"
          << RESET;
     cout << RED << "Digital Tikets for Anniversary Night Telkom University Bandung\n"
@@ -1683,18 +1625,15 @@ void tampilkanStatistik(const vector<Pesanan> &laporan, const vector<Tiket> &tik
         return;
     }
 
-    // Tampilkan total tiket terjual dan total pendapatan
     cout << GREEN << "Total Tiket Terjual : " << totalTiketTerjual << RESET << "\n";
     cout << GREEN << "Total Pendapatan    : Rp " << totalPendapatan << RESET << "\n";
 
-    // Tampilkan jumlah tiket terjual per kategori
     cout << BLUE << "\nTiket Terjual per Kategori:\n"
          << RESET;
     for (const auto &tiket : tiketList)
     {
         string warnaKategori = RESET;
 
-        // Menentukan warna berdasarkan kategori
         if (tiket.kategori == "VIP")
         {
             warnaKategori = MAGENTA;
@@ -1712,12 +1651,10 @@ void tampilkanStatistik(const vector<Pesanan> &laporan, const vector<Tiket> &tik
             warnaKategori = BROWN;
         }
 
-        // Tampilkan jumlah tiket terjual untuk kategori ini
         cout << warnaKategori << tiket.kategori << RESET
              << ": " << kategoriTiketTerjual[tiket.kategori] << " tiket terjual\n";
     }
 
-    // Tampilkan kategori terpopuler
     auto maxKategori = max_element(kategoriTiketTerjual.begin(), kategoriTiketTerjual.end(),
                                    [](const auto &a, const auto &b)
                                    { return a.second < b.second; });
@@ -1731,7 +1668,6 @@ void tampilkanStatistik(const vector<Pesanan> &laporan, const vector<Tiket> &tik
     cout << "--------------------------------------\n";
 }
 
-// Fungsi untuk menanyakan kepada chatbot (serina)
 void chatbot()
 {
     map<string, string> faq = {
@@ -1779,7 +1715,6 @@ void chatbot()
     } while (true);
 }
 
-// Fungsi untuk mencari tiket
 void cariTiket(const vector<Pesanan> &laporanPesanan)
 {
     string nama, kodeMasuk;
@@ -1796,17 +1731,16 @@ void cariTiket(const vector<Pesanan> &laporanPesanan)
     cout << "Masukkan Kode Masuk Tiket: ";
     getline(cin, kodeMasuk);
 
-    // Mencari tiket berdasarkan nama dan kode masuk
     for (const auto &pesanan : laporanPesanan)
     {
         for (size_t i = 0; i < pesanan.kode_masuk.size(); ++i)
         {
-            // Cocokkan nama dan kode masuk tiket
+
             if (pesanan.nama == nama && pesanan.kode_masuk[i] == kodeMasuk)
             {
                 cout << GREEN << "\nTiket Ditemukan!\n"
                      << RESET;
-                cout << BLUE << "Nomor Penonton : " << pesanan.no_penonton + i << RESET << "\n"; // Menampilkan nomor penonton
+                cout << BLUE << "Nomor Penonton : " << pesanan.no_penonton + i << RESET << "\n";
                 cout << BLUE << "Nama           : " << pesanan.nama << RESET << "\n";
                 cout << BLUE << "Kategori       : " << pesanan.kategori << RESET << "\n";
                 cout << GREEN << "Pembayaran     : Berhasil\n"
@@ -1825,7 +1759,6 @@ void cariTiket(const vector<Pesanan> &laporanPesanan)
     }
 }
 
-// Fungsi untuk mengekspor laporan pemesanan ke file CSV
 void exportToCSV(const vector<Pesanan> &laporan)
 {
     ofstream file("laporan_pemesanan.csv", ios::app);
@@ -1836,7 +1769,6 @@ void exportToCSV(const vector<Pesanan> &laporan)
         return;
     }
 
-    // Tambahkan header hanya jika file kosong
     if (file.tellp() == 0)
     {
         file << "Nama,Kategori,Jumlah,Metode Pembayaran,Detail Pembayaran,Total Harga,Waktu Pembelian\n";
@@ -1857,10 +1789,9 @@ void exportToCSV(const vector<Pesanan> &laporan)
          << RESET;
 }
 
-// Fungsi untuk melihat aktivitas penggunas
 void logAktivitas(const string &username, const string &aktivitas, bool isAdmin)
 {
-    ofstream logFile("log_aktivitas.txt", ios::app); // Membuka file log untuk ditambahkan
+    ofstream logFile("log_aktivitas.txt", ios::app);
     if (logFile.is_open())
     {
         time_t sekarang = time(0);
@@ -1879,7 +1810,6 @@ void logAktivitas(const string &username, const string &aktivitas, bool isAdmin)
     }
 }
 
-// Fungsi untuk menampilkan log aktivitas
 void tampilkanLogAktivitas()
 {
     ifstream logFile("log_aktivitas.txt");
@@ -1899,7 +1829,6 @@ void tampilkanLogAktivitas()
     }
 }
 
-// Fungsi untuk menampilkan menu bantuan
 void tampilkanMenuBantuan()
 {
     cout << BLUE << "\n=== MENU BANTUAN ===\n"
@@ -1970,33 +1899,27 @@ void tampilkanMenuBantuan()
     cout << "--------------------------------------\n";
 }
 
-// Fungsi untuk mereset seluruh data ke awal lagi
 void resetProgram(vector<Tiket> &tiketList, vector<Pesanan> &laporanPesanan, vector<Ulasan> &listUlasan, vector<Antrean> &daftarAntrean, int &nomorPenontonTerakhir)
 {
-    // Reset data tiket ke kondisi awal
+
     tiketList = {
         {"VIP", 1000000, "Snack, Merchandise, Panggung Dekat", 50, 50},
         {"Gold", 750000, "Snack, Panggung Dekat", 100, 100},
         {"Silver", 500000, "Panggung Jauh, Pemandangan Bagus", 200, 200},
         {"Bronze", 250000, "Berdiri, Harga Terjangkau", 500, 500}};
 
-    // Reset laporan pemesanan
     laporanPesanan.clear();
 
-    // Reset daftar ulasan
     listUlasan.clear();
 
-    // Reset antrean
     daftarAntrean.clear();
 
-    // Reset nomor penonton terakhir
     nomorPenontonTerakhir = 0;
 
     cout << GREEN << "Program berhasil direset ke kondisi awal!\n"
          << RESET;
 }
 
-// Fungsi untuk menampilkan menu admin
 void tampilkanMenuAdmin()
 {
     cout << GREEN << "\n=== SELAMAT DATANG ADMIN! ANDA MEMPUNYAI AKSES DATA ===\n"
@@ -2015,7 +1938,6 @@ void tampilkanMenuAdmin()
     cout << "12. Logout\n";
 }
 
-// Fungsi untuk menampilkan menu user
 void tampilkanMenuUser()
 {
     cout << GREEN << "\n=== SELAMAT DATANG USER! ===\n"
@@ -2054,13 +1976,11 @@ int main()
     {
         logAktivitas(username, "Login berhasil", isAdmin);
 
-        // Tentukan peran berdasarkan username
         if (userRoles[username] == "admin")
         {
-            isAdmin = true; // Jika admin, set isAdmin ke true
+            isAdmin = true;
         }
 
-        // Menu utama berdasarkan peran
         while (!keluar)
         {
             cout << BLUE << "\n=== MENU UTAMA ===\n"
@@ -2069,11 +1989,11 @@ int main()
 
             if (isAdmin)
             {
-                tampilkanMenuAdmin(); // Tampilkan menu admin
+                tampilkanMenuAdmin();
             }
             else
             {
-                tampilkanMenuUser(); // Tampilkan menu user
+                tampilkanMenuUser();
             }
 
             cout << GREEN << "Pilihan: " << RESET;
@@ -2228,21 +2148,18 @@ int main()
             case 11:
                 if (isAdmin)
                 {
-                    // Pindah Account
+
                     cout << BLUE << "Anda memilih untuk berpindah akun. Silakan login kembali.\n"
                          << RESET;
                     logAktivitas(username, "Memilih pindah akun", isAdmin);
 
-                    // Reset informasi login
                     username.clear();
                     isAdmin = false;
 
-                    // Kembali ke proses login
                     if (loginSSO(username))
                     {
                         logAktivitas(username, "Login berhasil setelah pindah akun", isAdmin);
 
-                        // Tentukan peran berdasarkan username baru
                         if (userRoles[username] == "admin")
                         {
                             isAdmin = true;
@@ -2252,11 +2169,10 @@ int main()
                     {
                         cout << RED << "Gagal login setelah pindah akun. Program akan keluar.\n"
                              << RESET;
-                        pilihan = isAdmin ? 12 : 15; // Set pilihan keluar
+                        pilihan = isAdmin ? 12 : 15;
                         break;
                     }
 
-                    // Kembali ke menu utama tanpa keluar dari loop
                     continue;
                 }
                 else
@@ -2268,10 +2184,10 @@ int main()
             case 12:
                 if (isAdmin)
                 {
-                    // Panggil fungsi konfirmasiLogout
+
                     if (konfirmasiLogout())
                     {
-                        keluar = true; // Keluar dari loop utama
+                        keluar = true;
                         logAktivitas(username, "Logout User berhasil", isAdmin);
                     }
                     break;
@@ -2304,7 +2220,7 @@ int main()
                 }
                 else
                 {
-                    // Pindah Account
+
                     cout << BLUE << "Anda memilih untuk berpindah akun. Silakan login kembali.\n"
                          << RESET;
                     logAktivitas(username, "Memilih pindah akun", isAdmin);
@@ -2312,12 +2228,10 @@ int main()
                     username.clear();
                     isAdmin = false;
 
-                    // Kembali ke proses login
                     if (loginSSO(username))
                     {
                         logAktivitas(username, "Login berhasil setelah pindah akun", isAdmin);
 
-                        // Tentukan peran berdasarkan username baru
                         if (userRoles[username] == "admin")
                         {
                             isAdmin = true;
@@ -2327,11 +2241,10 @@ int main()
                     {
                         cout << RED << "Gagal login setelah pindah akun. Program akan keluar.\n"
                              << RESET;
-                        pilihan = isAdmin ? 12 : 15; // Set pilihan keluar
+                        pilihan = isAdmin ? 12 : 15;
                         break;
                     }
 
-                    // Kembali ke menu utama tanpa keluar dari loop
                     continue;
                 }
                 break;
@@ -2344,10 +2257,10 @@ int main()
                 }
                 else
                 {
-                    // Panggil fungsi konfirmasiLogout
+
                     if (konfirmasiLogout())
                     {
-                        keluar = true; // Keluar dari loop utama
+                        keluar = true;
                         logAktivitas(username, "Logout User berhasil", isAdmin);
                     }
                 }
@@ -2358,7 +2271,6 @@ int main()
                 logAktivitas(username, "Memasukkan pilihan tidak valid", isAdmin);
                 break;
 
-                // Kondisi keluar dari menu utama
                 if ((isAdmin && pilihan == 12) || (!isAdmin && pilihan == 15))
                 {
                     break;
